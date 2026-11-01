@@ -1,0 +1,104 @@
+{
+  "_note": "Plant regions in 1024px building-image coords. Rects are [x, y, w, h]. keepLines: which long straight lines inside the rect (window frames, fence, railings) stay with the house — \"both\" (default) or \"horizontal\" (for the tree, whose trunk is vertical). except: rects inside the region that always stay with the house.",
+  "regions": [
+    {
+      "id": "tree-canopy",
+      "rect": [
+        0,
+        462,
+        198,
+        306
+      ],
+      "keepLines": "horizontal",
+      "except": [
+        [
+          26,
+          462,
+          32,
+          16
+        ]
+      ]
+    },
+    {
+      "id": "tree-trunk",
+      "rect": [
+        10,
+        768,
+        52,
+        128
+      ],
+      "keepLines": "horizontal"
+    },
+    {
+      "id": "bush-tall",
+      "rect": [
+        134,
+        636,
+        212,
+        136
+      ]
+    },
+    {
+      "id": "bushes-low",
+      "rect": [
+        346,
+        726,
+        188,
+        46
+      ]
+    },
+    {
+      "id": "bush-door",
+      "rect": [
+        688,
+        742,
+        74,
+        31
+      ]
+    },
+    {
+      "id": "bush-right",
+      "rect": [
+        864,
+        656,
+        145,
+        122
+      ]
+    },
+    {
+      "id": "plant-mid",
+      "rect": [
+        632,
+        472,
+        70,
+        60
+      ]
+    },
+    {
+      "id": "plant-top-left",
+      "rect": [
+        212,
+        226,
+        96,
+        100
+      ]
+    },
+    {
+      "id": "plant-top-right",
+      "rect": [
+        628,
+        202,
+        90,
+        84
+      ],
+      "except": [
+        [
+          700,
+          250,
+          18,
+          36
+        ]
+      ]
+    }
+  ]
+}

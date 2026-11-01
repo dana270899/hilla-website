@@ -1,0 +1,663 @@
+:root {
+  --text: #545454;
+  --ink: #000;
+  --surface: #e8e8e8;
+  --surface-light: #f1f1f1;
+  --line: #d6d6d6;
+  --muted: #626262;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Building drawing: Figma's 10% black, the darker "filled" tone, and the plants' colour */
+  --b-light: #e6e6e6;
+  --b-ink: #b4b4b4;
+  --b-plant: #91b7f8;
+  /* Window light in the services building */
+  --light: #ffb900;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  background: #fff;
+  color: var(--text);
+  font-family: "Assistant", sans-serif;
+}
+
+/* ---------- Header ---------- */
+
+.site-header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 40px 120px 16px;
+  transition: background-color 0.3s ease, padding 0.3s var(--ease), box-shadow 0.3s ease;
+}
+
+.site-header.is-scrolled {
+  padding-block: 16px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 1px 0 var(--line);
+}
+
+.site-header__logo {
+  width: 147px;
+  color: #676767;
+  font-size: 48px;
+  font-weight: 300;
+  line-height: normal;
+  text-decoration: none;
+}
+
+.site-header__nav {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.site-header__link {
+  color: var(--text);
+  font-size: 32px;
+  font-weight: 300;
+  text-decoration: none;
+}
+
+.site-header__link:hover { color: var(--ink); }
+
+.cta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 32px 10px;
+  border-radius: 100px;
+  background: var(--text);
+  color: #fff;
+  font-size: 28px;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.cta:hover { background: #333; }
+
+/* 27.5px glyph centred in a 32px box, as in Figma */
+.cta img { margin: 2.25px; }
+
+/* ---------- Hero ---------- */
+
+/* The hero stays pinned for (height − 1 screen) of scrolling while the building is drawn */
+.hero {
+  position: relative;
+  height: 300svh;
+}
+
+/* Plants are quick to draw — release the pin as soon as they're done */
+.hero[data-effect="details"] { height: 180svh; }
+
+.hero__sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+
+/* The Figma frame is 1440×1024; --u is one design pixel, fitted to the viewport */
+.hero__stage {
+  --u: calc(min(100vw, 100svh * 1.40625) / 1440);
+  position: relative;
+  width: calc(1440 * var(--u));
+  height: 100svh;
+  direction: ltr;
+}
+
+.building {
+  position: absolute;
+  left: calc(335 * var(--u));
+  bottom: calc(1024 * var(--u) - 1220 * var(--u));
+  width: calc(1244 * var(--u));
+  height: calc(1243 * var(--u));
+  color: var(--b-light);
+  overflow: visible;
+}
+
+.hero__photo {
+  position: absolute;
+  left: calc(-67 * var(--u));
+  bottom: calc(-62 * var(--u));
+  width: calc(803 * var(--u));
+  height: calc(1071 * var(--u));
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.hero__text {
+  position: absolute;
+  left: calc(752 * var(--u));
+  top: calc(100% - 1024 * var(--u) + 409 * var(--u));
+  width: calc(562 * var(--u));
+  direction: rtl;
+  text-align: right;
+  line-height: normal;
+}
+
+.hero__name {
+  margin: 0 0 calc(-16 * var(--u));
+  font-weight: 400;
+  font-size: calc(62.708 * var(--u));
+}
+
+.hero__taglines {
+  display: grid;
+  margin: 0;
+  font-weight: 200;
+  font-size: calc(100.196 * var(--u));
+  overflow: hidden;
+}
+
+.hero__tagline {
+  grid-area: 1 / 1;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(60%);
+  transition: opacity 0.5s var(--ease), transform 0.7s var(--ease);
+}
+
+.hero__tagline.is-active {
+  opacity: 1;
+  transform: none;
+}
+
+.hero__tagline.is-past {
+  transform: translateY(-60%);
+}
+
+/* ---------- Building effects ---------- */
+
+.b-structure,
+.b-details { fill: currentColor; }
+
+/* Both effects follow the scroll position (hero.js sets each path's dash offset and
+   fill), so scrolling down draws and scrolling back up erases. */
+
+/* Option 1 — "fill": a darker copy of the house, cut into horizontal bands, drawn
+   stroke by stroke from the ground up */
+.b-lines {
+  color: var(--b-ink);
+  fill: currentColor;
+}
+
+.hero:not([data-effect="fill"]) .b-lines { display: none; }
+
+/* Option 2 — "details": the house without plants; the plants are drawn in blue */
+.hero[data-effect="details"] .b-details { color: var(--b-plant); }
+
+.b-lines path,
+.hero[data-effect="details"] .detail path {
+  fill-opacity: 0;
+  stroke: currentColor;
+  stroke-width: 22; /* path units are 1/20 of a building pixel */
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+/* ---------- Effect toggle ---------- */
+
+.effect-toggle {
+  position: fixed;
+  inset-inline-start: 20px;
+  bottom: 20px;
+  z-index: 20;
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 0 0 1px var(--line), 0 4px 16px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(8px);
+}
+
+.effect-toggle button {
+  padding: 6px 16px 8px;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: var(--text);
+  font: inherit;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.effect-toggle button[aria-checked="true"] {
+  background: var(--text);
+  color: #fff;
+}
+
+.effect-toggle button:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
+}
+
+
+/* ---------- Content sections ---------- */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 64px 120px;
+  scroll-margin-top: 80px;
+}
+
+.section__title {
+  margin: 0;
+  font-size: 40px;
+  font-weight: 300;
+  line-height: normal;
+}
+
+.placeholder {
+  height: 400px;
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+/* Services: accordion beside a media panel */
+.services {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  width: 100%;
+}
+
+.services__media { height: 480px; }
+
+/* Building drawing: multiplied so its white drops out and its lines take
+   the hero building's tone; the window fills sit underneath it */
+.services__building {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.services__building image {
+  mix-blend-mode: multiply;
+  /* black lines on white land at #b4b4b4, the hero building's --b-ink */
+  opacity: 0.294;
+}
+
+.services__window {
+  fill: var(--light);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.services__window.is-lit { opacity: 1; }
+
+.service + .service {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.service__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  list-style: none;
+}
+
+.service__head::-webkit-details-marker { display: none; }
+
+.service__title {
+  font-size: 32px;
+  font-weight: 300;
+  line-height: normal;
+}
+
+.service__arrow { transition: transform 0.3s var(--ease); }
+
+.service[open] .service__arrow { transform: rotate(180deg); }
+
+.service__body {
+  margin: 8px 0 0;
+  font-size: 20px;
+  font-weight: 300;
+}
+
+/* Reviews: horizontal carousel — 3 cards on desktop, arrows sit in the side gutter */
+.carousel {
+  position: relative;
+  width: 100%;
+}
+
+.carousel__track {
+  --per-view: 3;
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+
+.carousel__track::-webkit-scrollbar { display: none; }
+
+.carousel__track > * {
+  flex: 0 0 calc((100% - (var(--per-view) - 1) * 16px) / var(--per-view));
+  scroll-snap-align: start;
+}
+
+.carousel__arrow {
+  position: absolute;
+  top: 50%;
+  display: grid;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.carousel__arrow:disabled { opacity: 0.3; cursor: default; }
+
+/* arrow-sm.svg points down; rotate to face outwards */
+.carousel__arrow--left {
+  left: -48px;
+  transform: translateY(-50%) rotate(90deg);
+}
+
+.carousel__arrow--right {
+  right: -48px;
+  transform: translateY(-50%) rotate(-90deg);
+}
+
+.score-card,
+.review-card {
+  /* Minimum, not fixed: the row stretches every card to the longest review */
+  min-height: 400px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.score-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 68px 40px;
+  background: var(--text);
+}
+
+.score-card__score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.score-card__value {
+  margin: 0 0 -16px;
+  color: #fff;
+  font-size: 126.095px;
+  font-weight: 700;
+  letter-spacing: -5.0438px;
+  line-height: normal;
+}
+
+.review-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 40px;
+  background: var(--surface-light);
+}
+
+.review-card__top {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.review-card__text {
+  margin: 0;
+  color: var(--ink);
+  font-size: 16px;
+  font-weight: 300;
+}
+
+.review-card__author {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.review-card__person {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.review-card__avatar {
+  flex: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.review-card__name {
+  font-size: 16px;
+  font-weight: 300;
+  line-height: normal;
+}
+
+.review-card__name p { margin: 0; color: var(--ink); }
+.review-card__name .review-card__meta { color: var(--muted); }
+
+.stars { display: flex; }
+.stars img + img { margin-inline-start: -5.333px; }
+.stars--lg img + img { margin-inline-start: -6.128px; }
+
+/* Google "G" on a white pill */
+.g-badge {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.g-badge img { width: 18.665px; height: 18.665px; }
+
+.g-badge--lg { width: 40px; height: 40px; }
+.g-badge--lg img { width: 23.331px; height: 23.331px; }
+
+/* About */
+.about {
+  display: grid;
+  grid-template-columns: 438px 1fr;
+  gap: 80px;
+  align-items: center;
+  width: 100%;
+}
+
+.about__photo {
+  width: 100%;
+  height: 440px;
+  border-radius: 8px;
+  background: var(--surface);
+  object-fit: cover;
+}
+
+.about__text {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 300;
+  line-height: normal;
+}
+
+/* Stats: key numbers in a row */
+.section--stats { padding-block: 56px; }
+
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 144px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--ink);
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat__value {
+  margin-bottom: -8px;
+  font-size: 64px;
+  font-weight: 400;
+}
+
+.stat__label {
+  font-size: 32px;
+  font-weight: 200;
+}
+
+/* ---------- Contact footer ---------- */
+
+.contact {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  min-height: 357px;
+  padding: 64px 120px;
+  background: var(--text);
+}
+
+.contact__title {
+  margin: 0;
+  color: #fff;
+  font-size: 96px;
+  font-weight: 300;
+  line-height: normal;
+}
+
+.cta--footer { padding-inline: 24px; }
+
+@media (max-width: 1100px) {
+  .section { padding: 56px 40px; }
+  .services, .about { gap: 40px; }
+  .site-header, .contact { padding-inline: 40px; }
+  .site-header__logo { width: auto; }
+  .carousel__track { --per-view: 2; }
+  .about { grid-template-columns: 1fr 1fr; }
+  .carousel__arrow--left { left: -36px; }
+  .carousel__arrow--right { right: -36px; }
+}
+
+@media (max-width: 760px) {
+  /* Logo + CTA only; the sections are a short scroll apart */
+  .site-header { padding: 16px; }
+  .site-header__nav { display: none; }
+  .site-header__logo { font-size: 32px; }
+  .cta { padding: 6px 12px 7px; font-size: 16px; gap: 4px; }
+  .cta img { width: 20px; height: 20px; margin: 0; }
+
+  .section { gap: 32px; padding: 48px 16px; }
+  .section__title { font-size: 32px; }
+  .section--stats { padding-block: 40px; }
+  .stats { gap: 24px; }
+  .stat__value { font-size: 44px; margin-bottom: -4px; }
+  .stat__label { font-size: 20px; }
+  .services, .about { grid-template-columns: 1fr; }
+
+  /* One card plus a peek of the next, bleeding to the screen edge; swipe instead of arrows */
+  .carousel__arrow { display: none; }
+  .carousel__track {
+    margin-inline: -16px;
+    padding-inline: 16px;
+    scroll-padding-inline: 16px;
+  }
+  .carousel__track > * { flex-basis: 82%; }
+  .review-card { padding: 32px 24px; }
+  /* Building above the cards so the lit window shows while tapping them */
+  .services__media { order: -1; height: 260px; }
+  .service__title, .about__text { font-size: 24px; }
+  .about__photo { height: auto; aspect-ratio: 438 / 440; }
+
+  .contact {
+    flex-direction: column;
+    gap: 24px;
+    min-height: 0;
+    padding: 48px 16px 64px;
+  }
+  .contact__title { font-size: 56px; }
+}
+
+/* ---------- Narrow / portrait screens ---------- */
+
+/* Figma mobile frame is 402×874; --u is one design pixel there, fitted to the viewport.
+   Text and building hang from the top, the photo sits on the bottom edge. */
+@media (max-width: 600px) {
+  .hero__stage {
+    --u: calc(min(100vw, 100svh * 0.46) / 402);
+    width: calc(402 * var(--u));
+  }
+
+  .building {
+    left: calc(-332 * var(--u));
+    top: calc(68 * var(--u));
+    bottom: auto;
+    width: calc(915 * var(--u));
+    height: calc(916 * var(--u));
+  }
+
+  .hero__photo {
+    left: calc(-45 * var(--u));
+    bottom: calc(-11 * var(--u));
+    width: calc(491 * var(--u));
+    height: calc(655 * var(--u));
+  }
+
+  .hero__text {
+    left: calc(43 * var(--u));
+    top: calc(99 * var(--u));
+    width: calc(316 * var(--u));
+    text-align: center;
+  }
+
+  .hero__name {
+    margin-bottom: calc(-9 * var(--u));
+    font-size: calc(35.259 * var(--u));
+  }
+
+  .hero__taglines { font-size: calc(56.338 * var(--u)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__tagline,
+  .service__arrow {
+    transition: opacity 0.3s ease;
+    transform: none !important;
+  }
+}

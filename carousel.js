@@ -18,7 +18,9 @@
 
   arrows.forEach((btn) => {
     btn.addEventListener('click', () => {
-      track.scrollBy({ left: Number(btn.dataset.dir) * step() });
+      const still = matchMedia('(prefers-reduced-motion: reduce)').matches
+        || document.documentElement.classList.contains('a11y-no-motion');
+      track.scrollBy({ left: Number(btn.dataset.dir) * step(), behavior: still ? 'auto' : 'smooth' });
     });
   });
 

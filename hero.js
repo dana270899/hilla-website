@@ -1,22 +1,20 @@
 // Scroll-scrubbed hero building. The drawing follows the scroll position while the
-// hero is pinned: scrolling down draws, scrolling back up erases.
-//   fill    — a darker copy of the house is drawn band by band from the ground up
-//   details — the plants are drawn in blue, all at once, from the first bit of scroll
+// hero is pinned: scrolling down draws, scrolling back up erases. A darker copy of
+// the house is drawn band by band from the ground up.
+// With reduced motion (OS setting or the accessibility toolbar) the house is shown
+// complete and does not move.
 (function () {
   const hero = document.getElementById('hero');
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const root = document.documentElement;
+  const reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const motionOff = () => reduceMotionQuery.matches || root.classList.contains('a11y-no-motion');
 
-  const PLANTS_END = 1; // plants finish as the pin releases (the hero is shorter in this mode, see styles.css)
   const LINES_END = 0.9; // lines are complete after 90%
   const BAND_WINDOW = 0.22; // how long one band takes, as a share of the lines' run
 
   const clamp01 = (v) => Math.min(Math.max(v, 0), 1);
   // Deterministic 0–1 scatter so strokes don't all start on the same frame
   const scatter = (i) => Math.abs((Math.sin(i * 12.9898) * 43758.5453) % 1);
-
-  const plants = [...hero.querySelectorAll('.detail path')].map((el, i) => ({
-    el, start: scatter(i) * 0.4, last: -1,
-  }));
 
   const bands = hero.querySelectorAll('.b-lines .band');
   const lines = [];
@@ -39,13 +37,8 @@
   }
 
   function render(progress) {
-    if (hero.dataset.effect === 'details') {
-      const p = clamp01(progress / PLANTS_END);
-      plants.forEach((it) => paint(it, clamp01((p - it.start) / 0.6)));
-    } else {
-      const p = clamp01(progress / LINES_END);
-      lines.forEach((it) => paint(it, clamp01((p - it.start) / BAND_WINDOW)));
-    }
+    const p = motionOff() ? 1 : clamp01(progress / LINES_END);
+    lines.forEach((it) => paint(it, clamp01((p - it.start) / BAND_WINDOW)));
   }
 
   let target = 0;
@@ -53,7 +46,7 @@
   let rafId = 0;
 
   function tick() {
-    current += (target - current) * (reduceMotion ? 1 : 0.18);
+    current += (target - current) * (motionOff() ? 1 : 0.18);
     if (Math.abs(target - current) < 0.0005) current = target;
     render(current);
     rafId = current === target ? 0 : requestAnimationFrame(tick);
@@ -66,27 +59,13 @@
     if (!rafId) rafId = requestAnimationFrame(tick);
   }
 
-  // Effect toggle
-  const buttons = document.querySelectorAll('.effect-toggle [data-effect]');
-
-  function setEffect(effect) {
-    buttons.forEach((b) => b.setAttribute('aria-checked', String(b.dataset.effect === effect)));
-    hero.dataset.effect = effect;
-    [...plants, ...lines].forEach((it) => (it.last = -1));
-    // Outside the plants effect, plants are just part of the static house
-    if (effect !== 'details') plants.forEach((it) => it.el.removeAttribute('style'));
-    render(current);
-    try { localStorage.setItem('hero-effect', effect); } catch (e) {}
-  }
-
-  buttons.forEach((b) => b.addEventListener('click', () => setEffect(b.dataset.effect)));
-
-  let saved = null;
-  try { saved = localStorage.getItem('hero-effect'); } catch (e) {}
-  setEffect(saved === 'details' ? 'details' : 'fill');
+  // Re-render when the toolbar or the OS setting turns motion on/off
+  document.addEventListener('a11y:change', () => render(current));
+  reduceMotionQuery.addEventListener('change', () => render(current));
 
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll);
+  render(0);
   onScroll();
 })();
 

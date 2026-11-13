@@ -524,21 +524,8 @@ html, body {
   line-height: normal;
 }
 
-/* Blog: the arrows sit in the row beside a strip of 423px cards that runs off
-   the edge, so the next card peeks in */
-.carousel--inline {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.carousel--inline .carousel__arrow { position: static; flex: none; }
-.carousel--inline .carousel__arrow--left { transform: rotate(90deg); }
-.carousel--inline .carousel__arrow--right { transform: rotate(-90deg); }
-
+/* Blog: same frame and columns as the reviews carousel, so the two sections line up */
 .carousel__track--blog {
-  flex: 1;
-  min-width: 0;
   /* The scrolling strip clips anything below it; leave room for the hover
      underline under the last title line, and pull the space back out of the layout */
   margin: 0 0 -12px;
@@ -546,7 +533,8 @@ html, body {
   list-style: none;
 }
 
-.carousel__track--blog > * { flex: 0 0 min(423px, 100%); }
+/* Centre the arrows on the 320px images, not on images + titles */
+#blog .carousel__arrow { top: 160px; }
 
 .post-card__link {
   display: flex;
@@ -565,7 +553,6 @@ html, body {
   background: var(--surface);
 }
 
-html[data-theme="blue"] .post-card__media { box-shadow: inset 0 0 0 1px #e3e3e3; }
 html.a11y-contrast .post-card__media { box-shadow: inset 0 0 0 2px #000; }
 
 .post-card__badge {
@@ -590,6 +577,11 @@ html.a11y-contrast .post-card__media { box-shadow: inset 0 0 0 2px #000; }
   text-decoration: underline var(--accent);
   text-decoration-thickness: 0.3em;
   text-decoration-skip-ink: none;
+}
+
+html[data-theme="blue"] .post-card__link:hover .post-card__title,
+html[data-theme="blue"] .post-card__link:focus-visible .post-card__title {
+  text-decoration-color: var(--brand);
 }
 
 /* Stats: key numbers in a row */

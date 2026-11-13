@@ -1,6 +1,6 @@
 // Scroll-scrubbed hero building. The drawing follows the scroll position while the
 // hero is pinned: scrolling down draws, scrolling back up erases. A darker copy of
-// the house is drawn band by band from the ground up.
+// the house is drawn from the ground up.
 // With reduced motion (OS setting or the accessibility toolbar) the house is shown
 // complete and does not move.
 (function () {
@@ -10,35 +10,74 @@
   const motionOff = () => reduceMotionQuery.matches || root.classList.contains('a11y-no-motion');
 
   const LINES_END = 0.9; // lines are complete after 90%
-  const BAND_WINDOW = 0.22; // how long one band takes, as a share of the lines' run
+  // How far (in path units, 1/20 of a building pixel) the rising front travels
+  // while one horizontal line fills across
+  const ACROSS = 1600;
 
-  const clamp01 = (v) => Math.min(Math.max(v, 0), 1);
-  // Deterministic 0–1 scatter so strokes don't all start on the same frame
-  const scatter = (i) => Math.abs((Math.sin(i * 12.9898) * 43758.5453) % 1);
+  const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
+  const clamp01 = (v) => clamp(v, 0, 1);
 
-  const bands = hero.querySelectorAll('.b-lines .band');
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+  const svg = hero.querySelector('svg.building');
+  const defs = svg.insertBefore(document.createElementNS(SVG_NS, 'defs'), svg.firstChild);
+
+  // The traced lines are cut into horizontal bands, so one long vertical line is
+  // several stacked pieces. To keep it continuous, every piece follows a single
+  // front that rises from the ground: a vertical piece is filled up to the front,
+  // and a horizontal piece fills across (right to left, the page's reading
+  // direction) once the front reaches it.
   const lines = [];
-  bands.forEach((band, k) => {
-    const bandStart = (k / bands.length) * (1 - BAND_WINDOW);
-    band.querySelectorAll('path').forEach((el, i) => {
-      lines.push({ el, start: bandStart + (scatter(lines.length + i) - 0.5) * 0.04, last: -1 });
-    });
+  hero.querySelectorAll('.b-lines .band path').forEach((el) => {
+    // Each line is a thin filled shape. It becomes a clip, and a solid rectangle
+    // grows inside it.
+    const box = el.getBBox();
+    const id = 'line-clip-' + lines.length;
+    const clip = document.createElementNS(SVG_NS, 'clipPath');
+    clip.id = id;
+    clip.setAttribute('clipPathUnits', 'userSpaceOnUse');
+    defs.appendChild(clip);
+    const wrap = document.createElementNS(SVG_NS, 'g');
+    wrap.setAttribute('clip-path', `url(#${id})`);
+    el.replaceWith(wrap);
+    clip.appendChild(el);
+    const rect = document.createElementNS(SVG_NS, 'rect');
+    if (box.height > box.width) {
+      rect.setAttribute('x', box.x);
+      rect.setAttribute('width', box.width);
+      rect.setAttribute('y', box.y);
+    } else {
+      rect.setAttribute('y', box.y);
+      rect.setAttribute('height', box.height);
+    }
+    wrap.appendChild(rect);
+    lines.push({ rect, box, vertical: box.height > box.width, last: -1 });
   });
 
-  // t: 0 → 1 for one path. Outline is drawn first, then it fills in solid.
-  function paint(item, t) {
-    const q = Math.round(t * 200) / 200;
-    if (q === item.last) return;
-    item.last = q;
-    const fill = clamp01((q - 0.6) / 0.4);
-    item.el.style.strokeDashoffset = 1 - clamp01(q / 0.7);
-    item.el.style.fillOpacity = fill;
-    item.el.style.strokeOpacity = 1 - fill;
+  const bottom = Math.min(...lines.map((l) => l.box.y));
+  const top = Math.max(...lines.map((l) => l.box.y + l.box.height));
+
+  // front: the height (path units; the group is flipped, so y grows upward) the
+  // drawing has reached.
+  function paint(item, front) {
+    const { rect, box } = item;
+    if (item.vertical) {
+      const h = Math.round(clamp(front - box.y, 0, box.height));
+      if (h === item.last) return;
+      item.last = h;
+      rect.setAttribute('height', h);
+    } else {
+      const q = Math.round(clamp01((front - box.y) / ACROSS) * 200) / 200;
+      if (q === item.last) return;
+      item.last = q;
+      rect.setAttribute('x', box.x + box.width * (1 - q));
+      rect.setAttribute('width', box.width * q);
+    }
   }
 
   function render(progress) {
     const p = motionOff() ? 1 : clamp01(progress / LINES_END);
-    lines.forEach((it) => paint(it, clamp01((p - it.start) / BAND_WINDOW)));
+    const front = bottom + (top + ACROSS - bottom) * p;
+    lines.forEach((it) => paint(it, front));
   }
 
   let target = 0;

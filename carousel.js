@@ -1,6 +1,5 @@
-// Review carousel: arrows scroll by one card and disable at either end.
-(function () {
-  const carousel = document.getElementById('reviews-carousel');
+// Carousels (reviews, blog): arrows scroll by one card and disable at either end.
+document.querySelectorAll('.carousel').forEach((carousel) => {
   const track = carousel.querySelector('.carousel__track');
   const arrows = carousel.querySelectorAll('.carousel__arrow');
 
@@ -27,4 +26,4 @@
   track.addEventListener('scroll', update, { passive: true });
   window.addEventListener('resize', update);
   update();
-})();
+});

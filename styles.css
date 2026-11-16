@@ -57,6 +57,13 @@ html[data-theme="teal"] {
   --surface: #f6f9f9;
   --surface-light: #f6f9f9;
   --hero-bg: #f6f9f9;
+  /* Buttons as in the blue theme: petrol pill, white pill on the footer panel */
+  --cta-bg: var(--brand);
+  --cta-text: #fff;
+  --cta-hover: #004a52;
+  --cta-footer-bg: #fff;
+  --cta-footer-text: var(--text);
+  --cta-footer-hover: #e6f0f1;
   --b-light: #dde7e8;
   --b-ink: rgb(0 93 103 / 0.15); /* #005D67 at 15% */
   --light: #ffb900;
@@ -592,7 +599,9 @@ html.a11y-contrast .post-card__media { box-shadow: inset 0 0 0 2px #000; }
 }
 
 html[data-theme="blue"] .post-card__link:hover .post-card__title,
-html[data-theme="blue"] .post-card__link:focus-visible .post-card__title {
+html[data-theme="blue"] .post-card__link:focus-visible .post-card__title,
+html[data-theme="teal"] .post-card__link:hover .post-card__title,
+html[data-theme="teal"] .post-card__link:focus-visible .post-card__title {
   text-decoration-color: var(--brand);
 }
 
@@ -1301,7 +1310,8 @@ html.a11y-font .a11y__title { font-weight: 700 !important; }
   color: #fff;
 }
 
-html[data-theme="blue"] .share__btn { box-shadow: inset 0 0 0 1px #e3e3e3; }
+html[data-theme="blue"] .share__btn,
+html[data-theme="teal"] .share__btn { box-shadow: inset 0 0 0 1px #e3e3e3; }
 html.a11y-contrast .share__btn { box-shadow: inset 0 0 0 2px #000; }
 
 .share__icon--whatsapp {

@@ -1,31 +1,30 @@
 :root {
-  --text: #545454;
-  --ink: #000;
-  --surface: #f7f9f7;
-  --surface-light: #f7f9f7;
+  --text: #161616;
+  --ink: #161616;
+  --surface: #f6f9f9;
+  --surface-light: #f6f9f9;
   --line: #e0eaf6;
-  --muted: #626262;
-  /* Theme "green" (default): deep green panels and text, lime call-to-action.
-     The "blue" theme below swaps these; theme-toggle.js picks one. */
-  --brand: #073c1b;
-  --accent: #aee60d;
-  --accent-hover: #9fd40b;
+  --muted: #161616;
+  /* Theme "turquoise" (default): #005D67 panels, text and buttons, yellow window
+     lights matching the rating stars. The "blue" theme below swaps these;
+     theme-toggle.js picks one. */
+  --brand: #005d67;
   --page-bg: #fff;
   /* Hero backdrop behind the building */
-  --hero-bg: #f7f9f7;
+  --hero-bg: #f6f9f9;
   /* Call-to-action pills: header, and footer (on the brand panel) */
-  --cta-bg: var(--accent);
-  --cta-text: var(--brand);
-  --cta-hover: var(--accent-hover);
-  --cta-footer-bg: var(--accent);
-  --cta-footer-text: var(--brand);
-  --cta-footer-hover: var(--accent-hover);
+  --cta-bg: var(--brand);
+  --cta-text: #fff;
+  --cta-hover: #004a52;
+  --cta-footer-bg: #fff;
+  --cta-footer-text: var(--text);
+  --cta-footer-hover: #e6f0f1;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
-  /* Building drawing: Figma's pale green lines and the darker "filled" tone */
-  --b-light: #dfe6e1;
-  --b-ink: rgb(7 60 27 / 0.15); /* #073C1B at 15% */
+  /* Building drawing: pale lines and the darker "filled" tone */
+  --b-light: #dde7e8;
+  --b-ink: rgb(0 93 103 / 0.15); /* #005D67 at 15% */
   /* Window light in the services building */
-  --light: var(--accent);
+  --light: #ffb900;
   /* Text-size step from the accessibility toolbar (1 = normal) */
   --a11y-scale: 1;
   /* Focus ring */
@@ -47,26 +46,6 @@ html[data-theme="blue"] {
   --cta-footer-hover: #e6edf6;
   --b-light: #dce2e9;
   --b-ink: rgb(0 72 159 / 0.15); /* #00489F at 15% */
-  --light: #ffb900;
-}
-
-/* Theme "teal": the green theme in petrol #005D67, with yellow window lights
-   matching the rating stars */
-html[data-theme="teal"] {
-  --brand: #005d67;
-  --surface: #f6f9f9;
-  --surface-light: #f6f9f9;
-  --hero-bg: #f6f9f9;
-  /* Buttons as in the blue theme: petrol pill, white pill on the footer panel */
-  --cta-bg: var(--brand);
-  --cta-text: #fff;
-  --cta-hover: #004a52;
-  --cta-footer-bg: #fff;
-  --cta-footer-text: var(--text);
-  --cta-footer-hover: #e6f0f1;
-  --b-light: #dde7e8;
-  --b-ink: rgb(0 93 103 / 0.15); /* #005D67 at 15% */
-  --light: #ffb900;
 }
 
 * { box-sizing: border-box; }
@@ -99,12 +78,16 @@ html, body {
 }
 
 .site-header__logo {
+  display: block;
   width: 147px;
-  color: var(--muted);
-  font-size: 2.5rem;
-  font-weight: 300;
-  line-height: normal;
+  line-height: 0;
   text-decoration: none;
+}
+
+.site-header__logo-img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .site-header__nav {
@@ -593,17 +576,11 @@ html.a11y-contrast .post-card__media { box-shadow: inset 0 0 0 2px #000; }
 /* Hover / keyboard focus: thick accent underline under the title (Figma 46:660) */
 .post-card__link:hover .post-card__title,
 .post-card__link:focus-visible .post-card__title {
-  text-decoration: underline var(--accent);
+  text-decoration: underline var(--brand);
   text-decoration-thickness: 0.3em;
   text-decoration-skip-ink: none;
 }
 
-html[data-theme="blue"] .post-card__link:hover .post-card__title,
-html[data-theme="blue"] .post-card__link:focus-visible .post-card__title,
-html[data-theme="teal"] .post-card__link:hover .post-card__title,
-html[data-theme="teal"] .post-card__link:focus-visible .post-card__title {
-  text-decoration-color: var(--brand);
-}
 
 /* Stats: key numbers in a row */
 .section--stats { padding-block: 56px; }
@@ -752,7 +729,6 @@ html[data-theme="teal"] .post-card__link:focus-visible .post-card__title {
   .services, .about { gap: 40px; }
   .site-header, .contact { padding-inline: 40px; }
   .contact__details { flex-wrap: wrap; }
-  .site-header__logo { width: auto; }
   .carousel__track { --per-view: 2; }
   .about { grid-template-columns: 1fr 1fr; }
   .carousel__arrow--left { left: -36px; }
@@ -763,7 +739,7 @@ html[data-theme="teal"] .post-card__link:focus-visible .post-card__title {
   /* Logo + CTA only; the sections are a short scroll apart */
   .site-header { padding: 16px; }
   .site-header__nav { display: none; }
-  .site-header__logo { font-size: 2rem; }
+  .site-header__logo { width: 112px; }
   .cta, .site-header .cta { padding: 6px 12px 7px; font-size: 1rem; gap: 4px; }
   .cta__icon, .site-header .cta__icon { width: 20px; height: 20px; margin: 0; }
 
@@ -913,7 +889,7 @@ html[data-theme="teal"] .post-card__link:focus-visible .post-card__title {
   box-shadow: 0 0 0 6px #000;
 }
 
-/* The CTA pill sits on white and on green: a double ring reads on both */
+/* The CTA pill sits on white and on the brand panel: a double ring reads on both */
 .cta:focus-visible {
   outline: 3px solid #000;
   box-shadow: 0 0 0 3px #fff;
@@ -954,7 +930,7 @@ html.theme-switching *::after { transition: none !important; }
   border: 0;
   border-radius: 100px;
   background: none;
-  color: #000;
+  color: #161616;
   font: inherit;
   font-size: 1rem;
   cursor: pointer;
@@ -1014,7 +990,7 @@ html.theme-switching *::after { transition: none !important; }
   padding: 16px;
   border-radius: 12px;
   background: #fff;
-  color: #000;
+  color: #161616;
   box-shadow: 0 0 0 1px #767676, 0 8px 24px rgba(0, 0, 0, 0.18);
 }
 
@@ -1036,7 +1012,7 @@ html.theme-switching *::after { transition: none !important; }
   border: 1px solid #767676;
   border-radius: 8px;
   background: #fff;
-  color: #000;
+  color: #161616;
   font: inherit;
   font-size: 1rem;
   text-align: start;
@@ -1075,7 +1051,7 @@ html.a11y-text-2 .site-header { flex-wrap: wrap; gap: 8px 24px; }
 /* High contrast */
 html.a11y-contrast {
   --text: #000;
-  --ink: #000;
+  --ink: #161616;
   --muted: #000;
   --line: #000;
   --surface: #fff;
@@ -1310,8 +1286,7 @@ html.a11y-font .a11y__title { font-weight: 700 !important; }
   color: #fff;
 }
 
-html[data-theme="blue"] .share__btn,
-html[data-theme="teal"] .share__btn { box-shadow: inset 0 0 0 1px #e3e3e3; }
+.share__btn { box-shadow: inset 0 0 0 1px #e3e3e3; }
 html.a11y-contrast .share__btn { box-shadow: inset 0 0 0 2px #000; }
 
 .share__icon--whatsapp {

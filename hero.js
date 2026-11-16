@@ -108,10 +108,17 @@
   onScroll();
 })();
 
-// Header gets a solid backdrop once the page scrolls.
+// Header gets a solid backdrop only once the hero has scrolled out from under it.
 (function () {
   const header = document.getElementById('site-header');
-  const update = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
+  const hero = document.getElementById('hero');
+  const update = () => {
+    const pastHero = hero
+      ? hero.getBoundingClientRect().bottom <= header.offsetHeight
+      : window.scrollY > 8;
+    header.classList.toggle('is-scrolled', pastHero);
+  };
   window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
   update();
 })();

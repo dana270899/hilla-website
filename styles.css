@@ -174,7 +174,6 @@ html, body {
   width: calc(1244 * var(--u));
   height: calc(1243 * var(--u));
   color: var(--b-light);
-  opacity: 0.1;
   overflow: visible;
 }
 
@@ -242,6 +241,7 @@ html, body {
 .b-lines {
   color: var(--b-ink);
   fill: currentColor;
+  opacity: 0.8;
 }
 
 .b-lines .band > path {

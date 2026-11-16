@@ -1,4 +1,4 @@
-// Colour theme switch: "green" (default) or "blue". The choice is a data-theme
+// Colour theme switch: "green" (default), "blue" or "teal". The choice is a data-theme
 // attribute on <html>, remembered in localStorage (a small inline script in <head>
 // re-applies it before first paint).
 (function () {
@@ -8,7 +8,7 @@
   function apply(theme) {
     // Swap colours in one step: no element fades between the two themes
     root.classList.add('theme-switching');
-    if (theme === 'blue') root.dataset.theme = 'blue';
+    if (theme === 'blue' || theme === 'teal') root.dataset.theme = theme;
     else delete root.dataset.theme;
     void root.offsetWidth;
     setTimeout(() => root.classList.remove('theme-switching'), 50);

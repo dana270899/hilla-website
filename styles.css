@@ -50,6 +50,18 @@ html[data-theme="blue"] {
   --light: #ffb900;
 }
 
+/* Theme "teal": the green theme in petrol #005D67, with yellow window lights
+   matching the rating stars */
+html[data-theme="teal"] {
+  --brand: #005d67;
+  --surface: #f6f9f9;
+  --surface-light: #f6f9f9;
+  --hero-bg: #f6f9f9;
+  --b-light: #dde7e8;
+  --b-ink: rgb(0 93 103 / 0.15); /* #005D67 at 15% */
+  --light: #ffb900;
+}
+
 * { box-sizing: border-box; }
 
 html, body {

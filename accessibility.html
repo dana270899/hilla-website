@@ -7,17 +7,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@200;300;400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=logo1">
+  <link rel="stylesheet" href="styles.css?v=turq1">
   <script>try{var a=JSON.parse(localStorage.getItem("a11y")||"{}");var c=document.documentElement.classList;(a.flags||[]).forEach(function(f){c.add("a11y-"+f)});if(a.text>0)c.add("a11y-text-"+a.text)}catch(e){}</script>
-  <script>try{var t=localStorage.getItem("theme");if(t==="blue"||t==="teal")document.documentElement.dataset.theme=t}catch(e){}</script>
+  <script>try{if(localStorage.getItem("theme")==="blue")document.documentElement.dataset.theme="blue"}catch(e){}</script>
 </head>
 <body class="page-statement">
   <a class="skip-link" href="#main">דלג לתוכן הראשי</a>
   <!-- Colour theme switch (theme-toggle.js) -->
   <div class="theme-switch" role="group" aria-label="ערכת צבעים">
-    <button type="button" data-theme-set="green" aria-pressed="true"><span class="theme-switch__dot" style="background:#073c1b" aria-hidden="true"></span>ירוק</button>
+    <button type="button" data-theme-set="turquoise" aria-pressed="true"><span class="theme-switch__dot" style="background:#005d67" aria-hidden="true"></span>טורקיז</button>
     <button type="button" data-theme-set="blue" aria-pressed="false"><span class="theme-switch__dot" style="background:#00489f" aria-hidden="true"></span>כחול</button>
-    <button type="button" data-theme-set="teal" aria-pressed="false"><span class="theme-switch__dot" style="background:#005d67" aria-hidden="true"></span>פטרול</button>
   </div>
   <!-- Accessibility toolbar (a11y-toolbar.js) -->
   <div class="a11y" id="a11y">
@@ -176,7 +175,7 @@
     </div>
   </footer>
 
-  <script src="a11y-toolbar.js?v=teal3"></script>
-  <script src="theme-toggle.js?v=teal3"></script>
+  <script src="a11y-toolbar.js?v=turq1"></script>
+  <script src="theme-toggle.js?v=turq1"></script>
 </body>
 </html>

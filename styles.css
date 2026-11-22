@@ -311,8 +311,11 @@ html, body {
 
 .services__window.is-lit { opacity: 1; }
 
+/* Spacing is padding inside each item, never margin, so the hover areas
+   touch and the cursor never falls into a gap between items */
+.service:not(:last-child) { padding-bottom: 16px; }
+
 .service + .service {
-  margin-top: 16px;
   padding-top: 16px;
   border-top: 1px solid var(--line);
 }
@@ -338,7 +341,10 @@ html, body {
 .service[open] .service__arrow { transform: rotate(180deg); }
 
 .service__body {
-  /* padding, not margin, so the height animation in services.js covers it */
+  /* padding, not margin, so the height animation in services.js covers it;
+     border-box so the animated height includes that padding and reaches a
+     true 0 (services.js animates the padding down with it) */
+  box-sizing: border-box;
   margin: 0;
   padding-top: 8px;
   overflow: hidden;

@@ -39,8 +39,13 @@
       return;
     }
 
+    // Padding is animated along with the height: a body squeezed to height 0
+    // still keeps its padding, which then vanished in one step at the end
+    // and made everything below snap by that much.
+    const pad = parseFloat(getComputedStyle(body).paddingTop);
+    const frame = (h) => ({ height: h + 'px', paddingTop: Math.min(h, pad) + 'px' });
     const anim = body.animate(
-      [{ height: from + 'px' }, { height: to + 'px' }],
+      [frame(from), frame(to)],
       { duration: DURATION, easing: EASE }
     );
     item._anim = anim;
@@ -69,10 +74,36 @@
     });
   });
 
+  // The list sits vertically centred beside the building, so it would move
+  // whenever its height changed (none open vs. one open). Reserve room for
+  // the tallest open state so it stays put.
+  function reserveHeight() {
+    list.style.minHeight = '';
+    const saved = items.map((item) => item.open);
+    items.forEach((item) => { item.open = false; });
+    const closed = list.getBoundingClientRect().height;
+    let tallest = 0;
+    items.forEach((item) => {
+      item.open = true;
+      tallest = Math.max(tallest, item.querySelector('.service__body').getBoundingClientRect().height);
+      item.open = false;
+    });
+    items.forEach((item, i) => { item.open = saved[i]; });
+    list.style.minHeight = closed + tallest + 'px';
+  }
+  reserveHeight();
+  new ResizeObserver(() => {
+    if (!items.some((item) => item._anim)) reserveHeight();
+  }).observe(list.parentElement);
+
   // Hover-to-open only where hover exists; on touch a tap would open then close it
   if (matchMedia('(hover: hover)').matches) {
-    items.forEach((item) => {
-      item.querySelector('.service__head').addEventListener('mouseenter', () => openOnly(item));
+    // The whole item (heading and open text) is the hover area. pointermove,
+    // not mouseenter: items sliding under a still cursor mid-animation must
+    // not open anything; only a real cursor move picks the item under it.
+    list.addEventListener('pointermove', (e) => {
+      const item = e.target.closest('.service');
+      if (item && !target.get(item)) openOnly(item);
     });
     // An item stays open while the cursor crosses the gap to the next one;
     // leaving the whole list closes it and turns the window off

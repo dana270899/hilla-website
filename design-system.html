@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>מערכת עיצוב – הלה איינהורן</title>
+  <!-- Internal reference page: not linked from the site and kept out of search -->
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@200..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=blog1">
+  <script>try{if(localStorage.getItem("theme")==="blue")document.documentElement.dataset.theme="blue"}catch(e){}</script>
+  <!-- Layout for this page only. Every sample below uses the site's own classes
+       from styles.css, so this page always shows the live components. -->
+  <style>
+    .ds { max-width: 1200px; margin: 0 auto; padding: 48px 40px 120px; color: var(--text); }
+    .ds__intro { margin: 0 0 8px; font-size: 3rem; font-weight: 300; }
+    .ds__note { margin: 0 0 56px; font-size: 1.125rem; font-weight: 300; max-width: 720px; }
+    .ds__toc { display: flex; flex-wrap: wrap; gap: 8px 24px; margin: 0 0 64px; padding: 0; list-style: none; font-size: 1.125rem; }
+    .ds__toc a { color: var(--brand); }
+    .ds-sec { padding-block: 56px; border-top: 1px solid var(--line); scroll-margin-top: 16px; }
+    .ds-sec__title { margin: 0 0 8px; font-size: 2rem; font-weight: 400; }
+    .ds-sec__desc { margin: 0 0 32px; font-size: 1rem; font-weight: 300; }
+    .ds-sub { margin: 40px 0 16px; font-size: 1.25rem; font-weight: 600; }
+    .ds-code { font-family: ui-monospace, Menlo, monospace; font-size: 0.8125rem; direction: ltr; unicode-bidi: isolate; }
+    .ds-label { display: block; margin-top: 12px; font-size: 0.875rem; font-weight: 300; line-height: 1.5; }
+
+    /* Colours */
+    .ds-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 24px; }
+    .ds-swatch__chip { height: 96px; border-radius: 8px; box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.08); }
+    .ds-swatch__name { display: block; margin-top: 10px; font-size: 1rem; font-weight: 600; }
+
+    /* Type */
+    .ds-type { display: grid; grid-template-columns: 220px 1fr; gap: 24px; align-items: baseline; padding-block: 20px; border-bottom: 1px solid var(--line); }
+    .ds-type__meta { font-size: 0.875rem; font-weight: 300; line-height: 1.5; }
+    .ds-type__meta strong { display: block; font-weight: 600; font-size: 1rem; }
+    .ds-type__sample { min-width: 0; }
+    .ds-type__sample > * { margin: 0; }
+
+    /* Component frames */
+    .ds-row { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 32px; }
+    .ds-cell { min-width: 0; }
+    .ds-panel { padding: 32px; border-radius: 8px; background: var(--brand); color: #fff; }
+    .ds-frame { padding: 32px; border-radius: 8px; box-shadow: inset 0 0 0 1px var(--line); }
+    .ds-demo .carousel__arrow { position: static; }
+    .ds-demo .carousel__arrow--left { transform: rotate(90deg); }
+    .ds-demo .carousel__arrow--right { transform: rotate(-90deg); }
+    .ds-demo .site-header__nav { justify-content: flex-start; }
+    .ds-card { width: 389px; max-width: 100%; }
+    .ds-demo .score-card, .ds-demo .review-card { height: 400px; }
+    .ds-demo .post-nav, .ds-demo .share { padding-inline: 0; max-width: none; }
+    .ds-demo .post__body { padding: 0; max-width: 800px; }
+    .ds-demo .placeholder { width: 320px; height: 200px; }
+    .ds-icons { display: flex; flex-wrap: wrap; gap: 24px; }
+    .ds-icon { display: grid; justify-items: center; gap: 8px; width: 120px; padding: 16px; border-radius: 8px; background: var(--surface); text-align: center; }
+    .ds-icon img { max-width: 48px; max-height: 48px; }
+    .ds-demo .stats { gap: 80px; justify-content: flex-start; }
+    .ds .theme-switch { position: sticky; }
+
+    @media (max-width: 760px) {
+      .ds { padding: 32px 16px 96px; }
+      .ds__intro { font-size: 2.25rem; }
+      .ds-type { grid-template-columns: 1fr; gap: 8px; }
+      .ds-demo .stats { flex-direction: column; gap: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="theme-switch" role="group" aria-label="ערכת צבעים">
+    <button type="button" data-theme-set="turquoise" aria-pressed="true"><span class="theme-switch__dot" style="background:#005d67" aria-hidden="true"></span>טורקיז</button>
+    <button type="button" data-theme-set="blue" aria-pressed="false"><span class="theme-switch__dot" style="background:#00489f" aria-hidden="true"></span>כחול</button>
+  </div>
+
+  <main class="ds" id="main">
+    <h1 class="ds__intro">מערכת עיצוב</h1>
+    <p class="ds__note">כל הרכיבים, הכותרות והצבעים של האתר במקום אחד. הדוגמאות משתמשות בקובץ העיצוב של האתר עצמו, כך שכל שינוי ב־styles.css מופיע כאן מיד. מתג הצבעים בתחתית המסך מחליף בין ערכת הטורקיז לכחול, והערכים מתעדכנים בהתאם.</p>
+
+    <nav aria-label="תוכן העמוד">
+      <ul class="ds__toc">
+        <li><a href="#colors">צבעים</a></li>
+        <li><a href="#type">טיפוגרפיה</a></li>
+        <li><a href="#buttons">כפתורים</a></li>
+        <li><a href="#nav">ניווט</a></li>
+        <li><a href="#cards">כרטיסים</a></li>
+        <li><a href="#accordions">אקורדיונים</a></li>
+        <li><a href="#article">רכיבי כתבה</a></li>
+        <li><a href="#misc">מספרים, דירוג ואייקונים</a></li>
+      </ul>
+    </nav>
+
+    <!-- ===== Colours ===== -->
+    <section class="ds-sec" id="colors" aria-labelledby="colors-title">
+      <h2 class="ds-sec__title" id="colors-title">צבעים</h2>
+      <p class="ds-sec__desc">משתני CSS מתוך <span class="ds-code">:root</span>. הערכים נקראים מהדף בזמן אמת.</p>
+      <div class="ds-swatches" data-swatches>
+        <div data-token="--text" data-use="טקסט ראשי"></div>
+        <div data-token="--brand" data-use="צבע מותג: פוטר, כרטיס ציון, מספרים"></div>
+        <div data-token="--cta-hover" data-use="ריחוף על כפתור"></div>
+        <div data-token="--page-bg" data-use="רקע העמוד"></div>
+        <div data-token="--surface" data-use="רקע כרטיסים ומשטחים"></div>
+        <div data-token="--hero-bg" data-use="רקע ההירו"></div>
+        <div data-token="--line" data-use="קווי הפרדה"></div>
+        <div data-token="--cta-footer-hover" data-use="ריחוף על כפתור הפוטר"></div>
+        <div data-token="--light" data-use="אור בחלונות הבניין"></div>
+        <div data-token="--b-light" data-use="קווי הבניין, גוון בהיר"></div>
+        <div data-token="--b-ink" data-use="קווי הבניין, גוון כהה"></div>
+        <div data-token="--focus" data-use="מסגרת פוקוס במקלדת"></div>
+      </div>
+    </section>
+
+    <!-- ===== Typography ===== -->
+    <section class="ds-sec" id="type" aria-labelledby="type-title">
+      <h2 class="ds-sec__title" id="type-title">טיפוגרפיה</h2>
+      <p class="ds-sec__desc">גופן Assistant בכל האתר. הגודל, המשקל וגובה השורה נמדדים מכל דוגמה.</p>
+
+      <div class="ds-type"><div class="ds-type__meta" data-spec><strong>שם בהירו</strong><span>בגודל דסקטופ 1440, מתכווץ עם המסך</span><br><span class="ds-code">.hero__name</span></div><div class="ds-type__sample" style="--u:1px"><p class="hero__name" style="margin:0">הלה איינהורן</p></div></div>
+      <div class="ds-type"><div class="ds-type__meta" data-spec><strong>שורת הירו</strong><span>בגודל דסקטופ 1440, מתכווץ עם המסך</span><br><span class="ds-code">.hero__taglines</span></div><div class="ds-type__sample" style="--u:1px"><p class="hero__taglines"><span>אחלה עורכת דין</span></p></div></div>
+      <div class="ds-type"><div class="ds-type__meta" data-spec><strong>כותרת פוטר</strong><span class="ds-code">.contact__title</span></div><div class="ds-type__sample"><p class="contact__title">יצירת קשר</p></div></div>
+      <div class="ds-type"><div class="ds-type__meta" data-spec><strong>מספר</strong><span class="ds-code">.stat__value</span></div><div class="ds-type__sample"><p class="stat__value">10</p></div></div>
+      <div class="ds-type"><div class="ds-type__meta" data-spec><strong>כותרת סקשן (H2)</strong><span class="ds-code">.section__title</span></div><div class="ds-type__sample"><p class="section__title">שירותים</p></div></div>
+      <div class="ds-type"><div class="ds-type__meta" data-spec><strong>כותרת כתבה (H1)</strong><span class="ds-code">.post__title</span></div><div class="ds-type__sample"><p class="post__title">קונים דירה מקבלן? 5 סעיפים קריטיים</p></div></div>
+      <div class="ds-type"><div class="ds-type__meta" data-spec><strong>כותרת שירות</strong><span class="ds-code">.service__title</span></div><div class="ds-type__sample"><p class="service__title">התחדשות עירונית (ייצוג דיירים)</p></div></div>
+      <div class="ds-type"><div class="ds-type__meta" data-spec><strong>טקסט גדול / פסקת פוטר</strong><span class="ds-code">.about__text</span></div><div class="ds-type__sample"><p class="about__text">כמה שורות על הלה ועל הדרך שבה היא עובדת.</p></div></div>
+      <div class="ds-type"><div class="ds-type__meta" data-spec><strong>קישור בתפריט</strong><span class="ds-code">.site-header__link</span></div><div class="ds-type__sample"><p class="site-header__link">אודות</p></div></div>
+      <div class="ds-type"><div class="ds-type__meta" data-spec><strong>פתיח כתבה (H2 בעיצוב)</strong><span class="ds-code">.post__lead</span></div><div class="ds-type__sample"><p class="post__lead">רכישת דירה מקבלן היא עסקה שמבוססת על חוזה ארוך ומורכב.</p></div></div>
+      <div class="ds-type"><div class="ds-type__meta" data-spec><strong>כותרת כרטיס כתבה</strong><span class="ds-code">.post-card__title</span></div><div class="ds-type__sample"><p class="post-card__title" style="padding:0">קונים דירה מקבלן? 5 סעיפים קריטיים</p></div></div>
+      <div class="ds-type"><div class="ds-type__meta" data-spec><strong>גוף שירות</strong><span class="ds-code">.service__body</span></div><div class="ds-type__sample"><p class="service__body" style="padding:0">ליווי משפטי ואסטרטגי לבעלי דירות משלב ההתארגנות.</p></div></div>
+      <div class="ds-type"><div class="ds-type__meta" data-spec><strong>כותרת בגוף כתבה (Bold body)</strong><span class="ds-code">.post__heading</span></div><div class="ds-type__sample post__body" style="padding:0;max-width:none"><p class="post__heading">1. בטוחות לפי חוק המכר</p></div></div>
+      <div class="ds-type"><div class="ds-type__meta" data-spec><strong>גוף כתבה (Body)</strong><span class="ds-code">.post__body p</span></div><div class="ds-type__sample post__body" style="padding:0;max-width:none"><p>הכלל הבסיסי ברכישת דירה מקבלן הוא שאסור להעביר תשלומים בלי לקבל במקביל בטוחה תקפה.</p></div></div>
+      <div class="ds-type"><div class="ds-type__meta" data-spec><strong>טקסט המלצה / מטא</strong><span class="ds-code">.review-card__text</span></div><div class="ds-type__sample"><p class="review-card__text">הלה יסודית, חרוצה וסבלנית.</p></div></div>
+      <div class="ds-type"><div class="ds-type__meta" data-spec><strong>תגית</strong><span class="ds-code">.post-card__badge</span></div><div class="ds-type__sample"><span class="post-card__badge" style="background:var(--surface)">זמן קריאה: 3 דקות</span></div></div>
+    </section>
+
+    <!-- ===== Buttons ===== -->
+    <section class="ds-sec ds-demo" id="buttons" aria-labelledby="buttons-title">
+      <h2 class="ds-sec__title" id="buttons-title">כפתורים</h2>
+      <p class="ds-sec__desc">העבירו את העכבר מעל הכפתורים כדי לראות את מצב הריחוף.</p>
+
+      <h3 class="ds-sub">כפתור קריאה לפעולה</h3>
+      <div class="ds-row">
+        <div class="ds-cell site-header" style="position:static;padding:0;background:none">
+          <a class="cta" href="#buttons"><span class="cta__icon" aria-hidden="true"></span><span>יצירת קשר</span></a>
+          <span class="ds-label">בכותרת <span class="ds-code">.site-header .cta</span></span>
+        </div>
+        <div class="ds-cell">
+          <a class="cta" href="#buttons"><span class="cta__icon" aria-hidden="true"></span><span>יצירת קשר</span></a>
+          <span class="ds-label">גודל מלא <span class="ds-code">.cta</span></span>
+        </div>
+        <div class="ds-cell ds-panel">
+          <a class="cta cta--footer" href="#buttons"><span class="cta__icon" aria-hidden="true"></span><span>כתבו לי בוואטספ</span></a>
+          <span class="ds-label">על רקע המותג <span class="ds-code">.cta--footer</span></span>
+        </div>
+      </div>
+
+      <h3 class="ds-sub">חיצי קרוסלה</h3>
+      <div class="ds-row">
+        <div class="ds-cell"><button class="carousel__arrow carousel__arrow--right" type="button" aria-label="הקודם"><img src="assets/arrow-sm.svg" width="32" height="32" alt=""></button><span class="ds-label">פעיל</span></div>
+        <div class="ds-cell"><button class="carousel__arrow carousel__arrow--left" type="button" aria-label="הבא" disabled><img src="assets/arrow-sm.svg" width="32" height="32" alt=""></button><span class="ds-label">מושבת (סוף הרשימה)</span></div>
+      </div>
+
+      <h3 class="ds-sub">כפתורי שיתוף</h3>
+      <section class="share" aria-label="דוגמה">
+        <p class="share__title">שיתוף הכתבה</p>
+        <ul class="share__list">
+          <li><a class="share__btn" href="#buttons"><span class="share__icon share__icon--whatsapp" aria-hidden="true"></span><span class="visually-hidden">וואטספ</span></a></li>
+          <li><a class="share__btn" href="#buttons"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path d="M13.5 21v-7.6h2.6l.4-3h-3V8.5c0-.9.3-1.5 1.5-1.5h1.6V4.3c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21z"/></svg><span class="visually-hidden">פייסבוק</span></a></li>
+          <li><a class="share__btn" href="#buttons"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M6.9 20H3.4V9h3.5zM5.1 7.5a2 2 0 1 1 0-4.1 2 2 0 0 1 0 4.1zM20.6 20h-3.5v-5.4c0-1.3 0-2.9-1.8-2.9s-2 1.4-2 2.8V20H9.8V9h3.3v1.5h.1c.5-.9 1.6-1.8 3.3-1.8 3.5 0 4.1 2.3 4.1 5.3z"/></svg><span class="visually-hidden">לינקדאין</span></a></li>
+        </ul>
+      </section>
+
+      <h3 class="ds-sub">רשתות בפוטר</h3>
+      <div class="ds-panel" style="display:inline-block">
+        <ul class="contact__social">
+          <li><a class="contact__social-link" href="#buttons"><img src="assets/linkedin.svg" alt="" width="22" height="22"><span class="visually-hidden">LinkedIn</span></a></li>
+          <li><a class="contact__social-link" href="#buttons"><img src="assets/google.png" alt="" width="24" height="24"><span class="visually-hidden">Google</span></a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== Navigation ===== -->
+    <section class="ds-sec ds-demo" id="nav" aria-labelledby="nav-title">
+      <h2 class="ds-sec__title" id="nav-title">ניווט</h2>
+
+      <h3 class="ds-sub">תפריט ראשי</h3>
+      <div class="ds-row" style="align-items:center;gap:48px">
+        <img src="assets/logo.svg" alt="לוגו" style="width:147px">
+        <nav class="site-header__nav" aria-label="דוגמה">
+          <a class="site-header__link" href="#nav">שירותים</a>
+          <a class="site-header__link" href="#nav">אודות</a>
+          <a class="site-header__link" href="#nav">המלצות</a>
+        </nav>
+      </div>
+
+      <h3 class="ds-sub">פירורי לחם</h3>
+      <nav class="crumbs" aria-label="דוגמה">
+        <ol>
+          <li><a href="#nav">עמוד בית</a></li>
+          <li><img class="chevron" src="assets/chevron.svg" width="20" height="20" alt=""><a href="#nav">בלוג</a></li>
+        </ol>
+      </nav>
+
+      <h3 class="ds-sub">כתבה קודמת / הבאה</h3>
+      <nav class="post-nav" aria-label="דוגמה" style="padding-block:0">
+        <a class="post-nav__link" href="#nav"><img class="chevron chevron--flip" src="assets/chevron.svg" width="20" height="20" alt=""><span>שם הכתבה הקודמת</span></a>
+        <a class="post-nav__link" href="#nav"><span>שם הכתבה הבאה</span><img class="chevron" src="assets/chevron.svg" width="20" height="20" alt=""></a>
+      </nav>
+    </section>
+
+    <!-- ===== Cards ===== -->
+    <section class="ds-sec ds-demo" id="cards" aria-labelledby="cards-title">
+      <h2 class="ds-sec__title" id="cards-title">כרטיסים</h2>
+      <div class="ds-row">
+        <div class="ds-cell ds-card">
+          <div class="score-card">
+            <span class="g-badge g-badge--lg"><img src="assets/google.png" alt="Google"></span>
+            <div class="score-card__score">
+              <p class="score-card__value">5.0</p>
+              <div class="stars stars--lg" role="img" aria-label="5 מתוך 5 כוכבים"><img src="assets/star-lg.svg" width="36.7689" height="36.7689" alt=""><img src="assets/star-lg.svg" width="36.7689" height="36.7689" alt=""><img src="assets/star-lg.svg" width="36.7689" height="36.7689" alt=""><img src="assets/star-lg.svg" width="36.7689" height="36.7689" alt=""><img src="assets/star-lg.svg" width="36.7689" height="36.7689" alt=""></div>
+            </div>
+          </div>
+          <span class="ds-label">כרטיס ציון <span class="ds-code">.score-card</span></span>
+        </div>
+        <div class="ds-cell ds-card">
+          <article class="review-card">
+            <div class="review-card__top">
+              <div class="stars" role="img" aria-label="5 מתוך 5 כוכבים"><img src="assets/star.svg" width="32" height="32" alt=""><img src="assets/star.svg" width="32" height="32" alt=""><img src="assets/star.svg" width="32" height="32" alt=""><img src="assets/star.svg" width="32" height="32" alt=""><img src="assets/star.svg" width="32" height="32" alt=""></div>
+              <p class="review-card__text">הלה יסודית, חרוצה וסבלנית. ביקשנו ממנה לעבוד תחת לוח זמנים מאוד צפוף, ולא רק שהיא עמדה בכך אלא עשתה את זה בנועם וזמינות.</p>
+            </div>
+            <footer class="review-card__author">
+              <div class="review-card__person">
+                <img class="review-card__avatar" src="assets/reviews/shira-hertzanu.png" width="48" height="48" alt="">
+                <div class="review-card__name"><p>שם הממליצה</p><p class="review-card__meta">2026</p></div>
+              </div>
+              <span class="g-badge"><img src="assets/google.png" alt="Google"></span>
+            </footer>
+          </article>
+          <span class="ds-label">כרטיס המלצה <span class="ds-code">.review-card</span></span>
+        </div>
+        <div class="ds-cell ds-card">
+          <div class="post-card">
+            <a class="post-card__link" href="blog-dira-mekablan.html">
+              <span class="post-card__media"><span class="post-card__badge">זמן קריאה: 3 דקות</span></span>
+              <span class="post-card__title">קונים דירה מקבלן? 5 סעיפים קריטיים שחייבים לבדוק לפני שחותמים</span>
+            </a>
+          </div>
+          <span class="ds-label">כרטיס כתבה <span class="ds-code">.post-card</span>, ריחוף מוסיף קו תחתון</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Accordions ===== -->
+    <section class="ds-sec ds-demo" id="accordions" aria-labelledby="acc-title">
+      <h2 class="ds-sec__title" id="acc-title">אקורדיונים</h2>
+
+      <h3 class="ds-sub">שירותים (עמוד הבית)</h3>
+      <div style="max-width:560px">
+        <details class="service" open>
+          <summary class="service__head"><span class="service__title">התחדשות עירונית (ייצוג דיירים)</span><img class="service__arrow" src="assets/arrow.svg" width="42" height="42" alt=""></summary>
+          <p class="service__body">ליווי משפטי ואסטרטגי לבעלי דירות משלב ההתארגנות והבחירה ועד להשלמת הפרויקט.</p>
+        </details>
+        <details class="service">
+          <summary class="service__head"><span class="service__title">עסקאות מקרקעין</span><img class="service__arrow" src="assets/arrow.svg" width="42" height="42" alt=""></summary>
+          <p class="service__body">תיאור קצר של השירות.</p>
+        </details>
+      </div>
+
+      <h3 class="ds-sub">שאלות נפוצות (כתבה)</h3>
+      <div class="post__body" style="padding:0;max-width:800px">
+        <div class="faq">
+          <p class="faq__title">שאלות נפוצות</p>
+          <details class="faq__item">
+            <summary class="faq__head"><span class="faq__q">שאלה סגורה</span><img class="faq__arrow" src="assets/arrow.svg" width="40" height="40" alt=""></summary>
+            <p class="faq__a">התשובה מופיעה כאן.</p>
+          </details>
+          <details class="faq__item is-open" open>
+            <summary class="faq__head"><span class="faq__q">שאלה פתוחה</span><img class="faq__arrow" src="assets/arrow.svg" width="40" height="40" alt=""></summary>
+            <p class="faq__a">התשובה מופיעה כאן, בגוף רגיל מתחת לשאלה.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Article ===== -->
+    <section class="ds-sec ds-demo" id="article" aria-labelledby="article-title">
+      <h2 class="ds-sec__title" id="article-title">רכיבי כתבה</h2>
+      <div class="post">
+        <div class="post__intro" style="align-items:flex-start;text-align:start">
+          <p class="post__title">כותרת הכתבה</p>
+          <p class="post__lead">פסקת פתיחה קצרה שמסכמת את הכתבה.</p>
+        </div>
+        <p class="post__meta" style="margin-top:24px">
+          <span>זמן קריאה: 3 דקות</span>
+          <img src="assets/dot.svg" width="4" height="4" alt="">
+          <span>עודכן לאחרונה: 22.11.2026</span>
+        </p>
+        <div class="post__body" style="margin-top:32px">
+          <div class="post__group">
+            <p class="post__heading">כותרת סעיף</p>
+            <p>פסקת גוף. כל סעיף בנוי מכותרת מודגשת ומיד מתחתיה הטקסט, ובין סעיף לסעיף רווח של 56 פיקסלים.</p>
+          </div>
+        </div>
+      </div>
+      <h3 class="ds-sub">מקום לתמונה</h3>
+      <div class="placeholder" role="img" aria-label="מקום לתמונה"></div>
+    </section>
+
+    <!-- ===== Misc ===== -->
+    <section class="ds-sec ds-demo" id="misc" aria-labelledby="misc-title">
+      <h2 class="ds-sec__title" id="misc-title">מספרים, דירוג ואייקונים</h2>
+
+      <h3 class="ds-sub">מספרים</h3>
+      <ul class="stats">
+        <li class="stat"><span class="stat__value">10</span><span class="stat__label">שנות ניסיון</span></li>
+        <li class="stat"><span class="stat__value">10</span><span class="stat__label">שנות ניסיון</span></li>
+      </ul>
+
+      <h3 class="ds-sub">דירוג ותג Google</h3>
+      <div class="ds-row" style="align-items:center">
+        <div class="stars" role="img" aria-label="5 מתוך 5 כוכבים"><img src="assets/star.svg" width="32" height="32" alt=""><img src="assets/star.svg" width="32" height="32" alt=""><img src="assets/star.svg" width="32" height="32" alt=""><img src="assets/star.svg" width="32" height="32" alt=""><img src="assets/star.svg" width="32" height="32" alt=""></div>
+        <span class="g-badge" style="box-shadow:inset 0 0 0 1px var(--line)"><img src="assets/google.png" alt="Google"></span>
+        <span class="g-badge g-badge--lg" style="box-shadow:inset 0 0 0 1px var(--line)"><img src="assets/google.png" alt="Google"></span>
+      </div>
+
+      <h3 class="ds-sub">אייקונים</h3>
+      <div class="ds-icons">
+        <div class="ds-icon"><img src="assets/arrow.svg" alt=""><span class="ds-code">arrow.svg</span></div>
+        <div class="ds-icon"><img src="assets/arrow-sm.svg" alt=""><span class="ds-code">arrow-sm.svg</span></div>
+        <div class="ds-icon"><img src="assets/chevron.svg" alt=""><span class="ds-code">chevron.svg</span></div>
+        <div class="ds-icon"><img src="assets/dot.svg" alt="" style="width:8px"><span class="ds-code">dot.svg</span></div>
+        <div class="ds-icon"><img src="assets/star.svg" alt=""><span class="ds-code">star.svg</span></div>
+        <div class="ds-icon"><img src="assets/whatsapp.svg" alt=""><span class="ds-code">whatsapp.svg</span></div>
+        <div class="ds-icon"><img src="assets/linkedin.svg" alt=""><span class="ds-code">linkedin.svg</span></div>
+        <div class="ds-icon"><img src="assets/logo.svg" alt=""><span class="ds-code">logo.svg</span></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="theme-toggle.js?v=turq1"></script>
+  <script src="faq.js?v=blog1"></script>
+  <script>
+    // Fill the colour swatches and type specs from the live styles, and refresh
+    // them when the theme switch changes the colours.
+    (function () {
+      var root = document.documentElement;
+      function hex(c) {
+        var m = c.match(/[\d.]+/g);
+        if (!m) return c;
+        var h = "#" + m.slice(0, 3).map(function (n) { return (+n).toString(16).padStart(2, "0"); }).join("");
+        return m[3] !== undefined && +m[3] < 1 ? h + " · " + Math.round(m[3] * 100) + "%" : h;
+      }
+      function swatches() {
+        document.querySelectorAll("[data-token]").forEach(function (el) {
+          var name = el.dataset.token;
+          var probe = document.createElement("span");
+          probe.style.color = "var(" + name + ")";
+          document.body.appendChild(probe);
+          var value = hex(getComputedStyle(probe).color);
+          probe.remove();
+          el.innerHTML = '<div class="ds-swatch__chip" style="background:var(' + name + ')"></div>'
+            + '<span class="ds-swatch__name ds-code">' + name + '</span>'
+            + '<span class="ds-label"><span class="ds-code">' + value + '</span><br>' + el.dataset.use + '</span>';
+        });
+      }
+      function specs() {
+        document.querySelectorAll("[data-spec]").forEach(function (meta) {
+          var sample = meta.nextElementSibling.querySelector("p, span");
+          var cs = getComputedStyle(sample);
+          var lh = cs.lineHeight === "normal" ? "normal" : (parseFloat(cs.lineHeight) / parseFloat(cs.fontSize)).toFixed(2).replace(/\.?0+$/, "");
+          var out = meta.querySelector(".ds-spec") || meta.appendChild(document.createElement("span"));
+          out.className = "ds-spec ds-label";
+          out.innerHTML = '<span class="ds-code">' + Math.round(parseFloat(cs.fontSize) * 10) / 10 + "px · " + cs.fontWeight + " · lh " + lh + "</span>";
+        });
+      }
+      swatches();
+      document.fonts.ready.then(specs);
+      new MutationObserver(function () { swatches(); specs(); }).observe(root, { attributes: true, attributeFilter: ["data-theme"] });
+      addEventListener("resize", specs);
+    })();
+  </script>
+</body>
+</html>

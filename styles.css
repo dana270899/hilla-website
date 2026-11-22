@@ -1252,6 +1252,16 @@ html.a11y-font .a11y__title { font-weight: 700 !important; }
   line-height: inherit;
 }
 
+.post__body strong { font-weight: 600; }
+
+/* Bulleted points inside a section (e.g. "label: text" items from the doc) */
+.post__list {
+  margin: 0;
+  padding-inline-start: 1.25em;
+}
+
+.post__list li + li { margin-top: 0.5em; }
+
 /* FAQ accordion (Figma 102:665) */
 .faq {
   display: flex;

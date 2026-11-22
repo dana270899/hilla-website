@@ -18,7 +18,12 @@
       item.open = true;
       var to = opening ? body.scrollHeight : 0;
       item.classList.toggle("is-open", opening);
-      var anim = body.animate([{ height: from + "px" }, { height: to + "px" }], { duration: 350, easing: EASE });
+      // The bottom padding shrinks with the height: a border-box answer can't
+      // get shorter than its padding, so animating height alone stalled at 8px
+      // and then the content below jumped when the item finally closed.
+      var pad = parseFloat(getComputedStyle(body).paddingBottom);
+      var frame = function (h) { return { height: h + "px", paddingBottom: Math.min(h, pad) + "px" }; };
+      var anim = body.animate([frame(from), frame(to)], { duration: 350, easing: EASE });
       item._anim = anim;
       anim.finished.then(function () {
         item._anim = null;

@@ -512,8 +512,8 @@ html, body {
   display: grid;
   grid-template-columns: 438px 1fr;
   gap: 80px;
-  /* Bottom-aligned, so the badge under the text sits on the photo's bottom edge */
-  align-items: end;
+  /* Text and badge centred on the photo */
+  align-items: center;
   width: 100%;
 }
 

@@ -510,8 +510,26 @@ html, body {
   display: grid;
   grid-template-columns: 438px 1fr;
   gap: 80px;
-  align-items: center;
+  /* Bottom-aligned, so the badge under the text sits on the photo's bottom edge */
+  align-items: end;
   width: 100%;
+}
+
+.about__body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.about__badge {
+  padding: 4px 16px;
+  border-radius: 100px;
+  background: #f7f9f7;
+  color: #545454;
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: normal;
 }
 
 .about__photo {

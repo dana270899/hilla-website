@@ -540,11 +540,12 @@ html, body {
   object-fit: cover;
 }
 
+/* Body text, same as a blog post's paragraphs */
 .about__text {
   margin: 0;
-  font-size: 2rem;
-  font-weight: 300;
-  line-height: normal;
+  font-size: 1.125rem;
+  font-weight: 350;
+  line-height: 1.4;
 }
 
 /* Blog: same frame and columns as the reviews carousel, so the two sections line up */
@@ -793,7 +794,7 @@ html.a11y-contrast .post-card__media { box-shadow: inset 0 0 0 2px #000; }
   .review-card { padding: 32px 24px; }
   /* Building above the cards so the lit window shows while tapping them */
   .services__media { order: -1; height: 260px; }
-  .service__title, .about__text { font-size: 1.5rem; }
+  .service__title { font-size: 1.5rem; }
   .about__photo { height: auto; aspect-ratio: 438 / 440; }
 
   .contact {

@@ -1242,8 +1242,67 @@ html.a11y-font .a11y__title { font-weight: 700 !important; }
 }
 
 .post__body p { margin: 0; }
-.post__group p + p { margin-top: 1.4em; }
-.post__strong { font-weight: 400; }
+.post__body { font-weight: 350; }
+
+/* Section: semibold heading straight on top of its paragraph (Figma "Bold body / Body") */
+.post__heading {
+  margin: 0;
+  font-size: inherit;
+  font-weight: 600;
+  line-height: inherit;
+}
+
+/* FAQ accordion (Figma 102:665) */
+.faq {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.faq__title {
+  margin: 0 0 8px;
+  font-size: 1.5rem;
+  font-weight: 300;
+  line-height: normal;
+  text-align: center;
+}
+
+.faq__item + .faq__item {
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+}
+
+.faq__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.faq__head::-webkit-details-marker { display: none; }
+
+.faq__q {
+  margin: 0;
+  font-size: inherit;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.faq__arrow {
+  flex: none;
+  transition: transform 0.3s var(--ease);
+}
+
+.faq__item.is-open .faq__arrow { transform: rotate(180deg); }
+
+.faq__a {
+  /* border-box so faq.js's animated height includes the padding and reaches 0 */
+  box-sizing: border-box;
+  overflow: hidden;
+  padding-bottom: 8px;
+}
 
 /* Share: round buttons in the page's soft surface tone, matching the footer pill's hover */
 .share {

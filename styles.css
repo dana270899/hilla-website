@@ -576,7 +576,20 @@ html, body {
   padding: 20px 16px 16px;
   border-radius: 8px;
   background: var(--surface);
+  position: relative;
+  overflow: hidden;
 }
+
+/* Photo fills the frame behind the reading-time badge */
+.post-card__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.post-card__badge { position: relative; }
 
 html.a11y-contrast .post-card__media { box-shadow: inset 0 0 0 2px #000; }
 
@@ -1251,7 +1264,14 @@ html.a11y-font .a11y__title { font-weight: 700 !important; }
   padding-inline: 120px;
 }
 
-.post__image { height: 671px; }
+.post__image {
+  display: block;
+  width: 100%;
+  height: 671px;
+  border-radius: 8px;
+  background: var(--surface);
+  object-fit: cover;
+}
 
 .post__body {
   display: flex;

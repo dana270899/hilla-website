@@ -123,7 +123,7 @@ for f, slug in POSTS:
     listing.append({"href": slug + ".html", "title": title})
     cards += f'''          <li class="post-card">
             <a class="post-card__link" href="{slug}.html">
-              <span class="post-card__media"><span class="post-card__badge">זמן קריאה: {mins} דקות</span></span>
+              <span class="post-card__media"><img class="post-card__img" src="assets/blog/building-800.webp" width="800" height="533" alt="" loading="lazy"><span class="post-card__badge">זמן קריאה: {mins} דקות</span></span>
               <span class="post-card__title">{esc(title)}</span>
             </a>
           </li>

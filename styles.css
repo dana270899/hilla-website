@@ -1257,6 +1257,8 @@ html.a11y-font .a11y__title { font-weight: 700 !important; }
   display: flex;
   flex-direction: column;
   gap: 8px;
+  /* Extra room on top of the body's section gap, setting the Q&A apart */
+  margin-top: 40px;
 }
 
 .faq__title {

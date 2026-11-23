@@ -12,7 +12,7 @@
      lights matching the rating stars. The "blue" theme below swaps these;
      theme-toggle.js picks one. */
   --brand: #005d67;
-  --page-bg: #fff;
+  --page-bg: #fafafa;
   /* Hero backdrop behind the building */
   --hero-bg: #f6f9f9;
   /* Call-to-action pills: header, and footer (on the brand panel) */

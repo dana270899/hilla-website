@@ -921,12 +921,15 @@ html.a11y-no-motion .post-card__link .post-card__img { transform: none; }
   .hero__taglines { font-size: max(calc(34 * var(--u) * var(--a11y-scale)), 1.75rem); }
 }
 
-/* Phones: larger hero text, centred over the photo */
-@media (max-width: 600px) {
+/* Phones and portrait tablets: larger hero text, centred over the photo */
+@media (max-width: 600px), (max-width: 1100px) and (max-aspect-ratio: 4/5) {
   .hero__text {
     right: var(--hero-gutter);
     text-align: center;
   }
+
+  /* Even line lengths, so no word is left alone on the last line */
+  .hero__tagline { text-wrap: balance; }
 
   .hero__name {
     margin-bottom: calc(-10 * var(--u));

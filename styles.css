@@ -2,7 +2,8 @@
   --text: #161616;
   --ink: #161616;
   --surface: #f6f9f9;
-  --surface-light: #f6f9f9;
+  /* Review cards: white (the first, score card, stays on the brand colour) */
+  --surface-light: #fff;
   --line: #e0eaf6;
   --muted: #161616;
   /* Lighter grey: blog card title on hover (5.8:1 on white) */

@@ -220,10 +220,11 @@ html, body {
 .hero__photo {
   position: absolute;
   /* Her left edge (the jacket at the bottom of the screen, 27 design px into the image)
-     lines up with the header's left gutter, whatever the stage's offset in the viewport */
+     lines up with the header's left gutter, or further left when the text needs the room.
+     The stage shrinks to the viewport rather than overflowing, so its offset is never negative. */
   left: calc(min(var(--hero-gutter),
       100vw - var(--hero-gutter) - 8.6 * var(--tag-fs) - var(--hero-gap) - var(--hero-person))
-    - (100vw - 1440 * var(--u)) / 2 - 27 * var(--u));
+    - max(0px, (100vw - 1440 * var(--u)) / 2) - 27 * var(--u));
   bottom: calc(-95 * var(--u));
   width: calc(867 * var(--u));
   height: calc(1157 * var(--u));

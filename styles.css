@@ -229,16 +229,17 @@ html, body {
 }
 
 .hero__name {
-  margin: 0 0 calc(-16 * var(--u));
+  margin: 0 0 calc(-7.5 * var(--u));
   font-weight: 400;
   /* rem floor so the name still grows with browser zoom / text size (WCAG 1.4.4) */
-  font-size: max(calc(62.708 * var(--u) * var(--a11y-scale)), 2rem);
+  font-size: max(calc(54.708 * var(--u) * var(--a11y-scale)), 1.75rem);
 }
 
 .hero__taglines {
   display: grid;
   margin: 0;
   font-weight: 200;
+  line-height: 1;
   font-size: max(calc(60 * var(--u) * var(--a11y-scale)), 2rem);
   overflow: hidden;
 }
@@ -962,8 +963,8 @@ html.a11y-no-motion .post-card__link .post-card__img { transform: none; }
   }
 
   .hero__name {
-    margin-bottom: calc(-9 * var(--u));
-    font-size: max(calc(35.259 * var(--u) * var(--a11y-scale)), 1.75rem);
+    margin-bottom: calc(-4.5 * var(--u));
+    font-size: max(calc(27.259 * var(--u) * var(--a11y-scale)), 1.5rem);
   }
 
   .hero__taglines { font-size: max(calc(34 * var(--u) * var(--a11y-scale)), 1.75rem); }
@@ -980,8 +981,8 @@ html.a11y-no-motion .post-card__link .post-card__img { transform: none; }
   .hero__tagline { text-wrap: balance; }
 
   .hero__name {
-    margin-bottom: calc(-10 * var(--u));
-    font-size: max(calc(40 * var(--u) * var(--a11y-scale)), 2rem);
+    margin-bottom: calc(-4.5 * var(--u));
+    font-size: max(calc(32 * var(--u) * var(--a11y-scale)), 1.75rem);
   }
 
   .hero__taglines { font-size: max(calc(38 * var(--u) * var(--a11y-scale)), 2rem); }

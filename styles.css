@@ -751,6 +751,8 @@ html.a11y-no-motion .post-card__link .post-card__img { transform: none; }
 /* ---------- Contact footer ---------- */
 
 .contact {
+  /* No single word left alone on the last line of any footer text */
+  text-wrap: pretty;
   display: flex;
   flex-direction: column;
   gap: 40px;

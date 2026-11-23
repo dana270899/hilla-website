@@ -812,9 +812,16 @@ html.a11y-no-motion .post-card__link .post-card__img { transform: none; }
   .carousel__track > * { flex-basis: 82%; }
 }
 
-/* Small tablets: cards at about their desktop width (~400px), with the next one peeking in */
-@media (min-width: 601px) and (max-width: 760px) {
+/* Small and portrait tablets (iPad 768–834): cards at about their desktop width (~400px),
+   with the next one peeking in, instead of two squeezed ~335px cards */
+@media (min-width: 601px) and (max-width: 860px) {
   .carousel__track > * { flex-basis: 60%; }
+}
+
+/* Landscape tablets (iPad 1180–1366): three cards would be only 300–360px wide, so show two.
+   Touch screens only: laptops at these widths keep the desktop three-up row */
+@media (min-width: 1101px) and (max-width: 1399px) and (hover: none) and (pointer: coarse) {
+  .carousel__track { --per-view: 2; }
 }
 
 @media (max-width: 760px) {

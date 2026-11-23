@@ -293,7 +293,7 @@ html, body {
 .b-structure,
 .b-details {
   fill: currentColor;
-  opacity: 0.5;
+  opacity: 0.4;
 }
 
 /* The drawing follows the scroll position (hero.js sets each path's dash offset and
@@ -304,7 +304,7 @@ html, body {
 .b-lines {
   color: var(--b-ink);
   fill: currentColor;
-  opacity: 0.4;
+  opacity: 0.6;
 }
 
 .b-lines .band > path {

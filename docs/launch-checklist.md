@@ -10,6 +10,12 @@ Tick items off with `[x]` as they're done.
 - [ ] Update "עדכון אחרון" (last updated) to the publish date
 - [ ] Optional: have an Israeli privacy lawyer give it a quick look
 
+## Cookie notice — `cookie-notice.js`
+
+- [ ] Hilla approves the notice text
+- [ ] On the live site, check it appears on first visit and stays gone after "הבנתי"
+- [ ] To see it again while testing: clear site data, or run `localStorage.removeItem('cookieNotice')` in the browser console
+
 ## Accessibility page — `accessibility.html`
 
 - [ ] Fill in the accessibility coordinator details (all `[placeholder]` fields):

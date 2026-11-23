@@ -180,6 +180,15 @@ html, body {
   --u: min(100svh / 1024, 100vw / 1000);
   /* Same right inset as the header (no 1200px cap like the sections) */
   --hero-gutter: 120px;
+  /* Hero text and photo share the width. The tagline's longer line is 8.6em wide and
+     the person in the photo 814 design px. On squarer screens the text shrinks below
+     its design size and the photo slides off the left edge (up to 30% of her) so the
+     two never overlap. */
+  --hero-person: calc(814 * var(--u));
+  --hero-gap: calc(60 * var(--u));
+  --tag-design: calc(69 * var(--u));
+  --tag-fs: min(var(--tag-design),
+    (100vw - 2 * var(--hero-gutter) - 0.7 * var(--hero-person) - var(--hero-gap)) / 8.6);
   position: sticky;
   top: 0;
   height: 100svh;
@@ -212,7 +221,9 @@ html, body {
   position: absolute;
   /* Her left edge (the jacket at the bottom of the screen, 27 design px into the image)
      lines up with the header's left gutter, whatever the stage's offset in the viewport */
-  left: calc(var(--hero-gutter) - (100vw - 1440 * var(--u)) / 2 - 27 * var(--u));
+  left: calc(min(var(--hero-gutter),
+      100vw - var(--hero-gutter) - 8.6 * var(--tag-fs) - var(--hero-gap) - var(--hero-person))
+    - (100vw - 1440 * var(--u)) / 2 - 27 * var(--u));
   bottom: calc(-95 * var(--u));
   width: calc(867 * var(--u));
   height: calc(1157 * var(--u));
@@ -224,7 +235,8 @@ html, body {
    with the header and the sections below */
 .hero__text {
   position: absolute;
-  left: calc((100% - 1440 * var(--u)) / 2 + 752 * var(--u));
+  left: min((100% - 1440 * var(--u)) / 2 + 752 * var(--u),
+    100% - var(--hero-gutter) - 8.6 * var(--tag-fs) * var(--a11y-scale));
   right: var(--hero-gutter);
   top: calc(100% - 1024 * var(--u) + 409 * var(--u));
   direction: rtl;
@@ -233,10 +245,10 @@ html, body {
 }
 
 .hero__name {
-  margin: 0 0 calc(-8.6 * var(--u));
+  margin: 0 0 -0.137em;
   font-weight: 400;
   /* rem floor so the name still grows with browser zoom / text size (WCAG 1.4.4) */
-  font-size: max(calc(63 * var(--u) * var(--a11y-scale)), 2rem);
+  font-size: max(calc(0.913 * var(--tag-fs) * var(--a11y-scale)), 2rem);
 }
 
 .hero__taglines {
@@ -244,7 +256,7 @@ html, body {
   margin: 0;
   font-weight: 200;
   line-height: 1;
-  font-size: max(calc(69 * var(--u) * var(--a11y-scale)), 2.25rem);
+  font-size: max(calc(var(--tag-fs) * var(--a11y-scale)), 2.25rem);
   overflow: hidden;
 }
 
@@ -272,11 +284,7 @@ html, body {
 
 /* Large desktops (1920 and up): a size step up for the hero text */
 @media (min-width: 1680px) and (min-aspect-ratio: 4/3) {
-  .hero__name {
-    margin-bottom: calc(-10 * var(--u));
-    font-size: max(calc(73 * var(--u) * var(--a11y-scale)), 2rem);
-  }
-  .hero__taglines { font-size: max(calc(80 * var(--u) * var(--a11y-scale)), 2.25rem); }
+  .hero__sticky { --tag-design: calc(80 * var(--u)); }
 }
 
 /* ---------- Building effects ---------- */
@@ -1581,4 +1589,67 @@ html.a11y-contrast .share__btn { box-shadow: inset 0 0 0 2px #000; }
   .post__lead { font-size: 1.25rem; }
   .post__body { gap: 40px; padding-block: 48px; }
   .post__meta { flex-wrap: wrap; justify-content: center; }
+}
+
+/* ---------- Cookie notice (cookie-notice.js) ---------- */
+/* Bottom inline-end corner (left in RTL), clear of the accessibility button */
+.cookie-notice {
+  position: fixed;
+  inset-inline-end: 20px;
+  bottom: 20px;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: 420px;
+  padding: 16px 20px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--text);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.cookie-notice__text { margin: 0; }
+
+.cookie-notice__text a {
+  color: var(--brand);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  white-space: nowrap;
+}
+
+.cookie-notice__ok {
+  flex: none;
+  min-height: 44px;
+  padding: 8px 20px;
+  border: 0;
+  border-radius: 100px;
+  background: var(--brand);
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cookie-notice__ok:hover { background: var(--cta-hover); }
+
+.cookie-notice a:focus-visible,
+.cookie-notice__ok:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* Below ~1100px the corner card would hit the centred theme switch, so it moves
+   up above the bottom controls, centred, full width on phones */
+@media (max-width: 1100px) {
+  .cookie-notice {
+    inset-inline: 16px;
+    bottom: 92px;
+    max-width: 600px;
+    margin-inline: auto;
+    padding: 14px 16px;
+  }
 }

@@ -58,6 +58,12 @@ html, body {
 
 /* ---------- Header ---------- */
 
+/* Header links glide to their section (off when the user asks for less motion) */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+html.a11y-no-motion { scroll-behavior: auto; }
+
 .site-header {
   position: fixed;
   inset: 0 0 auto;

@@ -270,6 +270,15 @@ html, body {
   transform: translateY(-60%);
 }
 
+/* Large desktops (1920 and up): a size step up for the hero text */
+@media (min-width: 1680px) and (min-aspect-ratio: 4/3) {
+  .hero__name {
+    margin-bottom: calc(-10 * var(--u));
+    font-size: max(calc(73 * var(--u) * var(--a11y-scale)), 2rem);
+  }
+  .hero__taglines { font-size: max(calc(80 * var(--u) * var(--a11y-scale)), 2.25rem); }
+}
+
 /* ---------- Building effects ---------- */
 
 .b-structure,

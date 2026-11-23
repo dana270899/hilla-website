@@ -411,7 +411,8 @@ html, body {
      stretches every card to the longest review */
   aspect-ratio: 389 / 400;
   border-radius: 8px;
-  overflow: hidden;
+  /* No overflow: hidden here: it turns aspect-ratio into a fixed height and
+     clips long reviews on narrow cards, instead of letting the card grow */
 }
 
 .score-card {

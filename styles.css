@@ -937,9 +937,9 @@ html.a11y-no-motion .post-card__link .post-card__img { transform: none; }
     --cta-nudge: -1px;
   }
 
-  .section { gap: 32px; padding: 48px 16px; }
+  .section { gap: 32px; padding: 34px 16px; }
   .section__title { font-size: 2rem; }
-  .section--stats { padding-block: 40px; }
+  .section--stats { padding-block: 28px; }
   /* Spread across the full content width: outer items sit on the 16px margins, the gaps share the rest */
   .stats { flex-wrap: wrap; justify-content: space-between; align-self: stretch; width: 100%; gap: 16px; }
   .stat__value { height: 48px; font-size: 2.25rem; }
@@ -982,7 +982,7 @@ html.a11y-no-motion .post-card__link .post-card__img { transform: none; }
   .contact {
     gap: 32px;
     /* room for the fixed accessibility and theme buttons below the last link */
-    padding: 48px 16px 104px;
+    padding: 34px 16px 104px;
   }
   .contact__top { flex-direction: column; align-items: flex-start; gap: 24px; }
   .contact__title { font-size: 3.5rem; }

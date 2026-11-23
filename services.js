@@ -90,6 +90,9 @@
     });
     items.forEach((item, i) => { item.open = saved[i]; });
     list.style.minHeight = closed + tallest + 'px';
+    // Centre the building on the rows as they sit at rest (all closed), not on
+    // the reserved box, which has extra room at the bottom for an open item
+    list.parentElement.style.setProperty('--services-rows', closed + 'px');
   }
   reserveHeight();
   new ResizeObserver(() => {

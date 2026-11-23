@@ -362,7 +362,12 @@ html.a11y-no-motion { scroll-behavior: auto; }
   width: 100%;
 }
 
-.services__media { height: 480px; }
+/* Height is the closed rows' (set in services.js) so the building centres
+   on them; the stacked layouts below set their own height */
+.services__media {
+  align-self: start;
+  height: var(--services-rows, 480px);
+}
 
 /* Building drawing: multiplied so its white drops out and its lines take
    the hero building's tone; the window fills sit underneath it */

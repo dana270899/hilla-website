@@ -250,6 +250,12 @@ html, body {
   transition: opacity 0.5s var(--ease), transform 0.7s var(--ease);
 }
 
+/* Always two lines, three words each */
+.hero__tagline-line {
+  display: block;
+  white-space: nowrap;
+}
+
 .hero__tagline.is-active {
   opacity: 1;
   transform: none;

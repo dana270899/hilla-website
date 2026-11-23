@@ -635,18 +635,20 @@ html.a11y-contrast .post-card__media { box-shadow: inset 0 0 0 2px #000; }
 html.a11y-no-motion .post-card__link .post-card__img { transform: none; }
 
 
-/* Stats: key numbers in a row */
-.section--stats { padding-block: 56px; }
+/* Stats: key numbers and promises in a row */
+.section--stats { padding-block: 80px; }
 
 .stats {
   display: flex;
   justify-content: center;
+  align-items: flex-start;
   gap: 144px;
   margin: 0;
   padding: 0;
   list-style: none;
-  color: var(--ink);
+  color: var(--text);
   line-height: normal;
+  text-align: center;
   white-space: nowrap;
 }
 
@@ -656,12 +658,29 @@ html.a11y-no-motion .post-card__link .post-card__img { transform: none; }
   align-items: center;
 }
 
+/* Value and icon share the same 80px slot so the labels line up */
 .stat__value {
-  margin-bottom: -8px;
-  font-size: 4rem;
-  font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80px;
+  padding-bottom: 4px;
+  font-size: 3.5rem;
+  font-weight: 250;
   color: var(--brand);
 }
+
+/* Icons are masks filled with the brand color, so they follow the theme */
+.stat__icon {
+  display: block;
+  width: 80px;
+  height: 80px;
+  background-color: var(--brand);
+  -webkit-mask: var(--icon) center / contain no-repeat;
+  mask: var(--icon) center / contain no-repeat;
+}
+.stat__icon--shield { --icon: url("assets/verified-user.svg"); }
+.stat__icon--handshake { --icon: url("assets/handshake.svg"); }
 
 .stat__label {
   font-size: 2rem;
@@ -803,9 +822,10 @@ html.a11y-no-motion .post-card__link .post-card__img { transform: none; }
   .section { gap: 32px; padding: 48px 16px; }
   .section__title { font-size: 2rem; }
   .section--stats { padding-block: 40px; }
-  .stats { flex-wrap: wrap; gap: 16px 24px; }
-  .stat__value { font-size: 2.75rem; margin-bottom: -4px; }
-  .stat__label { font-size: 1.25rem; }
+  .stats { flex-wrap: wrap; gap: 24px; }
+  .stat__value { height: 48px; font-size: 2.25rem; }
+  .stat__icon { width: 48px; height: 48px; }
+  .stat__label { font-size: 1.125rem; }
   .services, .about { grid-template-columns: 1fr; }
 
   /* One card plus a peek of the next, bleeding to the screen edge; swipe instead of arrows */

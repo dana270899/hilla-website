@@ -830,6 +830,9 @@ html.a11y-no-motion .post-card__link .post-card__img { transform: none; }
   .stat__label { font-size: 1.375rem; }
   .hero__sticky { --hero-gutter: 40px; }
   .services, .about { gap: 40px; }
+  /* Services stacked as on phones: building above the list */
+  .services { grid-template-columns: 1fr; }
+  .services__media { order: -1; height: 320px; }
   .site-header, .contact { padding-inline: 40px; }
   .contact__details { flex-wrap: wrap; }
   .carousel__track { --per-view: 2; }

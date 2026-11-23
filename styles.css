@@ -66,8 +66,8 @@ html, body {
   align-items: center;
   justify-content: space-between;
   padding: 32px 120px 12px;
-  /* Content no wider than the 1200px sections on wide screens; the bar itself stays full width */
-  padding-inline: max(120px, calc((100% - 1200px) / 2));
+  /* Full width on every screen (no 1200px cap like the sections) */
+  padding-inline: 120px;
   transition: background-color 0.3s ease, padding 0.3s var(--ease), box-shadow 0.3s ease;
 }
 
@@ -159,8 +159,8 @@ html, body {
      wider than the viewport and is cropped evenly on both sides, by at most
      (1440 - 1000) / 2 design px per side. */
   --u: min(100svh / 1024, 100vw / 1000);
-  /* Same right inset as the header and sections */
-  --hero-gutter: max(120px, calc((100% - 1200px) / 2));
+  /* Same right inset as the header (no 1200px cap like the sections) */
+  --hero-gutter: 120px;
   position: sticky;
   top: 0;
   height: 100svh;

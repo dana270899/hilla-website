@@ -818,9 +818,9 @@ html.a11y-no-motion .post-card__link .post-card__img { transform: none; }
   .carousel__track > * { flex-basis: 60%; }
 }
 
-/* Landscape tablets (iPad 1180–1366): three cards would be only 300–360px wide, so show two.
-   Touch screens only: laptops at these widths keep the desktop three-up row */
-@media (min-width: 1101px) and (max-width: 1399px) and (hover: none) and (pointer: coarse) {
+/* Small laptops and landscape tablets: below ~1360px three cards would be only 300–360px
+   wide (design is 389), so show two */
+@media (min-width: 1101px) and (max-width: 1359px) {
   .carousel__track { --per-view: 2; }
 }
 

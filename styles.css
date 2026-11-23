@@ -196,24 +196,24 @@ html, body {
   direction: ltr;
 }
 
-/* Scaled so the roof clears the header and the base stands on the bottom edge,
-   like the photo (the drawing fills 6.6%–94.1% of the box's height) */
+/* The roof clears the header; the ground floor runs off the bottom edge
+   (the drawing fills 6.6%–94.1% of the box's height) */
 .building {
   position: absolute;
-  left: calc(450 * var(--u));
-  bottom: calc(-59 * var(--u));
-  width: calc(1011 * var(--u));
-  height: calc(1010 * var(--u));
+  left: calc(420 * var(--u));
+  bottom: calc(-283 * var(--u));
+  width: calc(1251 * var(--u));
+  height: calc(1250 * var(--u));
   color: var(--b-light);
   overflow: visible;
 }
 
 .hero__photo {
   position: absolute;
-  left: calc(-67 * var(--u));
-  bottom: calc(-62 * var(--u));
-  width: calc(803 * var(--u));
-  height: calc(1071 * var(--u));
+  left: calc(-150 * var(--u));
+  bottom: calc(-95 * var(--u));
+  width: calc(867 * var(--u));
+  height: calc(1157 * var(--u));
   object-fit: cover;
   pointer-events: none;
 }

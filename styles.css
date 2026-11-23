@@ -921,6 +921,21 @@ html.a11y-no-motion .post-card__link .post-card__img { transform: none; }
   .hero__taglines { font-size: max(calc(34 * var(--u) * var(--a11y-scale)), 1.75rem); }
 }
 
+/* Phones: larger hero text, centred over the photo */
+@media (max-width: 600px) {
+  .hero__text {
+    right: var(--hero-gutter);
+    text-align: center;
+  }
+
+  .hero__name {
+    margin-bottom: calc(-10 * var(--u));
+    font-size: max(calc(40 * var(--u) * var(--a11y-scale)), 2rem);
+  }
+
+  .hero__taglines { font-size: max(calc(38 * var(--u) * var(--a11y-scale)), 2rem); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero__tagline,
   .service__arrow {

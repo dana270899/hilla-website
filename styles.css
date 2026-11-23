@@ -291,7 +291,10 @@ html, body {
 /* ---------- Building effects ---------- */
 
 .b-structure,
-.b-details { fill: currentColor; }
+.b-details {
+  fill: currentColor;
+  opacity: 0.5;
+}
 
 /* The drawing follows the scroll position (hero.js sets each path's dash offset and
    fill), so scrolling down draws and scrolling back up erases. */
@@ -301,7 +304,7 @@ html, body {
 .b-lines {
   color: var(--b-ink);
   fill: currentColor;
-  opacity: 0.8;
+  opacity: 0.4;
 }
 
 .b-lines .band > path {

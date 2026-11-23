@@ -215,6 +215,12 @@ html, body {
   height: calc(1250 * var(--u));
   color: var(--b-light);
   overflow: visible;
+  /* Decorative: never picks up the browser's selection highlight, and sits on its own
+     layer so the scroll drawing doesn't repaint the rest of the hero */
+  -webkit-user-select: none;
+  user-select: none;
+  pointer-events: none;
+  will-change: transform;
 }
 
 .hero__photo {

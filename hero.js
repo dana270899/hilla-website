@@ -50,7 +50,14 @@
       rect.setAttribute('height', box.height);
     }
     wrap.appendChild(rect);
-    lines.push({ rect, box, vertical: box.height > box.width, last: -1 });
+    // A plain copy of the line, shown instead of the clip once the line is complete.
+    // Only lines that are partly drawn pay for a clip; empty ones aren't painted at all.
+    const solid = el.cloneNode(false);
+    solid.removeAttribute('id');
+    wrap.appendChild(solid);
+    const item = { wrap, rect, solid, clip: `url(#${id})`, box, vertical: box.height > box.width, last: -1, state: '' };
+    setState(item, 'empty');
+    lines.push(item);
   });
 
   const bottom = Math.min(...lines.map((l) => l.box.y));
@@ -58,19 +65,33 @@
 
   // front: the height (path units; the group is flipped, so y grows upward) the
   // drawing has reached.
+  // empty: nothing painted; partial: the growing rectangle inside the clip;
+  // full: the plain line, no clip
+  function setState(item, state) {
+    if (item.state === state) return;
+    item.state = state;
+    item.wrap.style.display = state === 'empty' ? 'none' : '';
+    if (state === 'partial') item.wrap.setAttribute('clip-path', item.clip);
+    else item.wrap.removeAttribute('clip-path');
+    item.rect.style.display = state === 'partial' ? '' : 'none';
+    item.solid.style.display = state === 'full' ? '' : 'none';
+  }
+
   function paint(item, front) {
     const { rect, box } = item;
+    // Fill fraction, kept fine-grained so the drawing moves in sub-pixel steps
+    const f = item.vertical
+      ? clamp01((front - box.y) / box.height)
+      : Math.round(clamp01((front - box.y) / ACROSS) * 1000) / 1000;
+    if (f === item.last) return;
+    item.last = f;
+    setState(item, f <= 0 ? 'empty' : f >= 1 ? 'full' : 'partial');
+    if (f <= 0 || f >= 1) return;
     if (item.vertical) {
-      const h = Math.round(clamp(front - box.y, 0, box.height));
-      if (h === item.last) return;
-      item.last = h;
-      rect.setAttribute('height', h);
+      rect.setAttribute('height', box.height * f);
     } else {
-      const q = Math.round(clamp01((front - box.y) / ACROSS) * 200) / 200;
-      if (q === item.last) return;
-      item.last = q;
-      rect.setAttribute('x', box.x + box.width * (1 - q));
-      rect.setAttribute('width', box.width * q);
+      rect.setAttribute('x', box.x + box.width * (1 - f));
+      rect.setAttribute('width', box.width * f);
     }
   }
 

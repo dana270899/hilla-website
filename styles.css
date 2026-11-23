@@ -589,7 +589,8 @@ html.a11y-no-motion { scroll-behavior: auto; }
 /* About */
 .about {
   display: grid;
-  grid-template-columns: 438px 1fr;
+  /* Text first (right, in RTL), photo on the left */
+  grid-template-columns: 1fr 438px;
   gap: 80px;
   /* Text and badge centred on the photo */
   align-items: center;
@@ -621,6 +622,7 @@ html.a11y-no-motion { scroll-behavior: auto; }
   border-radius: 8px;
   background: var(--surface);
   object-fit: cover;
+  order: 1;
 }
 
 .about__text {
@@ -959,7 +961,8 @@ html.a11y-no-motion .post-card__link .post-card__img { transform: none; }
   /* Building above the cards so the lit window shows while tapping them */
   .services__media { order: -1; height: 260px; }
   .service__title { font-size: 1.5rem; }
-  .about__photo { height: auto; aspect-ratio: 438 / 440; }
+  /* Stacked: photo back above the text */
+  .about__photo { height: auto; aspect-ratio: 438 / 440; order: 0; }
 
   .contact {
     gap: 32px;

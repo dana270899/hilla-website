@@ -153,8 +153,11 @@ html, body {
 }
 
 .hero__sticky {
-  /* The Figma frame is 1440×1024; --u is one design pixel, fitted to the viewport */
-  --u: calc(min(100vw, 100svh * 1.40625) / 1440);
+  /* The Figma frame is 1440×1024; --u is one design pixel. It fills the viewport's
+     height so squarer screens get no empty band above the stage; the stage may then be
+     wider than the viewport and is cropped evenly on both sides, by at most
+     (1440 - 1000) / 2 design px per side. */
+  --u: min(100svh / 1024, 100vw / 1000);
   /* Same right inset as the header and sections */
   --hero-gutter: max(120px, calc((100% - 1200px) / 2));
   position: sticky;

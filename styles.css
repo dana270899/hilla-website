@@ -84,11 +84,11 @@ html, body {
   text-decoration: none;
 }
 
-/* Same height as the header's contact button (43px; 34px on mobile) */
+/* Same height as the header's contact button (40px; 36px on phones) */
 .site-header__logo-img {
   display: block;
   width: auto;
-  height: 43px;
+  height: 40px;
 }
 
 .site-header__nav {
@@ -106,15 +106,33 @@ html, body {
 
 .site-header__link:hover { color: var(--ink); }
 
+/* Contact pill, three sizes on a 4px grid. In every size: height = line-height +
+   2 × vertical padding, icon = line-height (28px in L), the icon side (right, RTL start)
+   gets 4px less padding than the text side, gap ≈ 0.4 × icon.
+     L 56px  text 28/32  icon 28  gap 12  padding 12 · 28 | 32   (footer)
+     M 40px  text 22/24  icon 24  gap 8   padding 8 · 16 | 20    (header; footer on phones)
+     S 36px  text 16/20  icon 20  gap 8   padding 8 · 12 | 16    (header on phones) */
 .cta {
+  --cta-font: 1.75rem;
+  --cta-line: 2rem;
+  --cta-icon: 28px;
+  --cta-gap: 12px;
+  --cta-pad-y: 12px;
+  --cta-pad-icon: 28px;
+  --cta-pad-text: 32px;
+  /* Assistant's Hebrew letters sit below the line box's centre; this lifts the label
+     so the letter bodies (not the descenders) are centred on the icon */
+  --cta-nudge: -3px;
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 32px 10px;
+  gap: var(--cta-gap);
+  padding: var(--cta-pad-y) var(--cta-pad-icon);
+  padding-inline-end: var(--cta-pad-text);
   border-radius: 100px;
   background: var(--cta-bg);
   color: var(--cta-text);
-  font-size: 1.75rem;
+  font-size: var(--cta-font);
+  line-height: var(--cta-line);
   white-space: nowrap;
   text-decoration: none;
   transition: background-color 0.2s ease;
@@ -122,27 +140,28 @@ html, body {
 
 .cta:hover { background: var(--cta-hover); }
 
-/* 27.5px WhatsApp glyph centred in a 32px box, as in Figma; a mask so it takes the text colour */
+.cta > span:not(.cta__icon, .visually-hidden) { position: relative; top: var(--cta-nudge); }
+
+/* WhatsApp glyph as a mask so it takes the text colour */
 .cta__icon {
   flex: none;
-  width: 27.5088px;
-  height: 27.5088px;
-  margin: 2.25px;
+  width: var(--cta-icon);
+  height: var(--cta-icon);
   background: currentColor;
   -webkit-mask: url("assets/whatsapp.svg") center / contain no-repeat;
   mask: url("assets/whatsapp.svg") center / contain no-repeat;
 }
 
-/* Header pill runs a size down from the footer one */
+/* M: header pill, a size down from the footer one */
 .site-header .cta {
-  padding: 6px 24px 8px;
-  font-size: 1.375rem;
-}
-
-.site-header .cta__icon {
-  width: 22px;
-  height: 22px;
-  margin: 2px;
+  --cta-font: 1.375rem;
+  --cta-line: 1.5rem;
+  --cta-icon: 24px;
+  --cta-gap: 8px;
+  --cta-pad-y: 8px;
+  --cta-pad-icon: 16px;
+  --cta-pad-text: 20px;
+  --cta-nudge: -2px;
 }
 
 /* ---------- Hero ---------- */
@@ -734,7 +753,6 @@ html.a11y-no-motion .post-card__link .post-card__img { transform: none; }
 }
 
 .cta--footer {
-  padding-inline: 24px;
   background: var(--cta-footer-bg);
   color: var(--cta-footer-text);
 }
@@ -819,9 +837,16 @@ html.a11y-no-motion .post-card__link .post-card__img { transform: none; }
   .site-header { padding: 16px; }
   .hero__sticky { --hero-gutter: 16px; }
   .site-header__nav { display: none; }
-  .site-header__logo-img { height: 34px; }
-  .cta, .site-header .cta { padding: 6px 12px 7px; font-size: 1rem; gap: 4px; }
-  .cta__icon, .site-header .cta__icon { width: 20px; height: 20px; margin: 0; }
+  .site-header__logo-img { height: 36px; }
+  /* S: header pill on phones */
+  .site-header .cta {
+    --cta-font: 1rem;
+    --cta-line: 1.25rem;
+    --cta-icon: 20px;
+    --cta-pad-icon: 12px;
+    --cta-pad-text: 16px;
+    --cta-nudge: -1px;
+  }
 
   .section { gap: 32px; padding: 48px 16px; }
   .section__title { font-size: 2rem; }
@@ -875,9 +900,17 @@ html.a11y-no-motion .post-card__link .post-card__img { transform: none; }
   /* flex-start keeps each LTR link (phone, email) hugging the right edge instead of stretching */
   .contact__reach { flex-direction: column; align-items: flex-start; gap: 12px; }
   .contact__bottom { padding-top: 24px; }
-  /* The footer WhatsApp pill is the page's main action, so it stays large on phones */
-  .contact .cta--footer { padding: 12px 28px 14px; font-size: 1.375rem; gap: 10px; }
-  .contact .cta--footer .cta__icon { width: 28px; height: 28px; }
+  /* M: the footer WhatsApp pill is the page's main action, so it stays a size up on phones */
+  .contact .cta--footer {
+    --cta-font: 1.375rem;
+    --cta-line: 1.5rem;
+    --cta-icon: 24px;
+    --cta-gap: 8px;
+    --cta-pad-y: 8px;
+    --cta-pad-icon: 16px;
+    --cta-pad-text: 20px;
+    --cta-nudge: -2px;
+  }
 }
 
 /* ---------- Narrow / portrait screens ---------- */

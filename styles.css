@@ -155,22 +155,26 @@ html, body {
 .hero__sticky {
   /* The Figma frame is 1440×1024; --u is one design pixel. It fills the viewport's
      height so squarer screens get no empty band above the stage; the stage may then be
-     wider than the viewport and is cropped evenly on both sides, by at most
-     (1440 - 1000) / 2 design px per side. */
+     wider than the viewport (at most 1440 / 1000 of it) and is cropped. */
   --u: min(100svh / 1024, 100vw / 1000);
+  /* Stage's left edge. Not centred: the photo leans to the left edge so more of the
+     building (which runs past the stage's right side) shows. Spare width goes 15% left
+     / 85% right; when the stage overflows, 30% of the crop comes off the left. */
+  --stage-spare: calc(100% - 1440 * var(--u));
+  --stage-x: min(var(--stage-spare) * 0.15, var(--stage-spare) * 0.3);
   /* Same right inset as the header and sections */
   --hero-gutter: max(120px, calc((100% - 1200px) / 2));
   position: sticky;
   top: 0;
   height: 100svh;
   overflow: hidden;
-  display: flex;
-  justify-content: center;
   background: var(--hero-bg);
 }
 
 .hero__stage {
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: var(--stage-x);
   width: calc(1440 * var(--u));
   height: 100svh;
   direction: ltr;
@@ -196,11 +200,13 @@ html, body {
   pointer-events: none;
 }
 
-/* Starts beside the photo (x=752 in the centred stage); the right edge lines up
+/* Starts beside the photo (x=752 in the stage); the right edge lines up
    with the header and the sections below */
 .hero__text {
   position: absolute;
-  left: calc((100% - 1440 * var(--u)) / 2 + 752 * var(--u));
+  /* ...but never narrower than 420 design px, so the tagline keeps its line count
+     on squarer screens (it may then overlap the photo's shoulder) */
+  left: min(var(--stage-x) + 752 * var(--u), 100% - var(--hero-gutter) - 420 * var(--u));
   right: var(--hero-gutter);
   top: calc(100% - 1024 * var(--u) + 409 * var(--u));
   direction: rtl;
@@ -885,7 +891,10 @@ html.a11y-no-motion .post-card__link .post-card__img { transform: none; }
    Text and building hang from the top, the photo sits on the bottom edge.
    Portrait tablets use it too: the landscape desktop frame would leave the top half empty. */
 @media (max-width: 600px), (max-width: 1100px) and (max-aspect-ratio: 4/5) {
-  .hero__sticky { --u: calc(min(100vw, 100svh * 0.46) / 402); }
+  .hero__sticky {
+    --u: calc(min(100vw, 100svh * 0.46) / 402);
+    --stage-x: calc((100% - 402 * var(--u)) / 2);
+  }
 
   .hero__stage {
     width: calc(402 * var(--u));

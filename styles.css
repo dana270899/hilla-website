@@ -188,7 +188,7 @@ html, body {
   --hero-gap: calc(60 * var(--u));
   --tag-design: calc(69 * var(--u));
   --tag-fs: min(var(--tag-design),
-    (100vw - 2 * var(--hero-gutter) - 0.7 * var(--hero-person) - var(--hero-gap)) / 8.6);
+    (100vw - var(--hero-gutter) - 0.7 * var(--hero-person) - var(--hero-gap)) / 8.6);
   position: sticky;
   top: 0;
   height: 100svh;

@@ -822,6 +822,12 @@ html.a11y-no-motion .post-card__link .post-card__img { transform: none; }
 
 @media (max-width: 1100px) {
   .section { padding: 56px 40px; }
+  /* Stats a step down from desktop (80px icons, 32px labels) */
+  .section--stats { padding-block: 56px; }
+  .stats { gap: 64px; }
+  .stat__value { height: 56px; font-size: 2.5rem; }
+  .stat__icon { width: 56px; height: 56px; }
+  .stat__label { font-size: 1.375rem; }
   .hero__sticky { --hero-gutter: 40px; }
   .services, .about { gap: 40px; }
   .site-header, .contact { padding-inline: 40px; }

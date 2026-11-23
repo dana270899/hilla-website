@@ -604,9 +604,11 @@ html.a11y-no-motion { scroll-behavior: auto; }
 }
 
 .about__badge {
-  padding: 4px 16px;
+  padding: 3px 15px;
   border-radius: 100px;
   background: #fff;
+  /* Border keeps the pill visible on the near-white page; padding trimmed by 1px so the size is unchanged */
+  border: 1px solid var(--line);
   color: #545454;
   font-size: 1rem;
   font-weight: 300;

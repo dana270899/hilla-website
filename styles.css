@@ -210,7 +210,9 @@ html, body {
 
 .hero__photo {
   position: absolute;
-  left: calc(-150 * var(--u));
+  /* Her left edge (the jacket at the bottom of the screen, 27 design px into the image)
+     lines up with the header's left gutter, whatever the stage's offset in the viewport */
+  left: calc(var(--hero-gutter) - (100vw - 1440 * var(--u)) / 2 - 27 * var(--u));
   bottom: calc(-95 * var(--u));
   width: calc(867 * var(--u));
   height: calc(1157 * var(--u));

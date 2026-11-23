@@ -814,6 +814,20 @@ html.a11y-no-motion .post-card__link .post-card__img { transform: none; }
 
 .cta--footer:hover { background: var(--cta-footer-hover); }
 
+/* A soft green glow on the label every few seconds; brief, then gone */
+.cta--footer > span:not(.cta__icon, .visually-hidden) {
+  animation: cta-glow 4s ease-in-out infinite;
+}
+
+@keyframes cta-glow {
+  0%, 70%, 100% { text-shadow: none; }
+  85% { text-shadow: 0 0 6px rgb(0 164 84 / 0.45); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta--footer > span:not(.cta__icon, .visually-hidden) { animation: none; }
+}
+
 /* Details row and bottom bar, each under a 0.5px white rule at 50% (Figma "Line 12") */
 .contact__details,
 .contact__bottom {

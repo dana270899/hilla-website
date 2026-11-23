@@ -844,6 +844,15 @@ html.a11y-no-motion .post-card__link .post-card__img { transform: none; }
 
 .contact__social-link:hover { background: #fff; transform: translateY(-2px); }
 
+/* WhatsApp glyph in the brand green, sized to match the LinkedIn and Google icons */
+.contact__social-icon--whatsapp {
+  width: 26px;
+  height: 26px;
+  background-color: #25d366;
+  -webkit-mask: url("assets/whatsapp.svg") center / contain no-repeat;
+  mask: url("assets/whatsapp.svg") center / contain no-repeat;
+}
+
 .contact__bottom {
   align-items: flex-start;
   font-size: 1rem;

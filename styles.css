@@ -153,6 +153,10 @@ html, body {
 }
 
 .hero__sticky {
+  /* The Figma frame is 1440×1024; --u is one design pixel, fitted to the viewport */
+  --u: calc(min(100vw, 100svh * 1.40625) / 1440);
+  /* Same right inset as the header and sections */
+  --hero-gutter: max(120px, calc((100% - 1200px) / 2));
   position: sticky;
   top: 0;
   height: 100svh;
@@ -162,9 +166,7 @@ html, body {
   background: var(--hero-bg);
 }
 
-/* The Figma frame is 1440×1024; --u is one design pixel, fitted to the viewport */
 .hero__stage {
-  --u: calc(min(100vw, 100svh * 1.40625) / 1440);
   position: relative;
   width: calc(1440 * var(--u));
   height: 100svh;
@@ -191,11 +193,13 @@ html, body {
   pointer-events: none;
 }
 
+/* Starts beside the photo (x=752 in the centred stage); the right edge lines up
+   with the header and the sections below */
 .hero__text {
   position: absolute;
-  left: calc(752 * var(--u));
+  left: calc((100% - 1440 * var(--u)) / 2 + 752 * var(--u));
+  right: var(--hero-gutter);
   top: calc(100% - 1024 * var(--u) + 409 * var(--u));
-  width: calc(562 * var(--u));
   direction: rtl;
   text-align: right;
   line-height: normal;
@@ -777,6 +781,7 @@ html.a11y-no-motion .post-card__link .post-card__img { transform: none; }
 
 @media (max-width: 1100px) {
   .section { padding: 56px 40px; }
+  .hero__sticky { --hero-gutter: 40px; }
   .services, .about { gap: 40px; }
   .site-header, .contact { padding-inline: 40px; }
   .contact__details { flex-wrap: wrap; }
@@ -789,6 +794,7 @@ html.a11y-no-motion .post-card__link .post-card__img { transform: none; }
 @media (max-width: 760px) {
   /* Logo + CTA only; the sections are a short scroll apart */
   .site-header { padding: 16px; }
+  .hero__sticky { --hero-gutter: 16px; }
   .site-header__nav { display: none; }
   .site-header__logo { width: 92px; }
   .cta, .site-header .cta { padding: 6px 12px 7px; font-size: 1rem; gap: 4px; }
@@ -856,8 +862,9 @@ html.a11y-no-motion .post-card__link .post-card__img { transform: none; }
    Text and building hang from the top, the photo sits on the bottom edge.
    Portrait tablets use it too: the landscape desktop frame would leave the top half empty. */
 @media (max-width: 600px), (max-width: 1100px) and (max-aspect-ratio: 4/5) {
+  .hero__sticky { --u: calc(min(100vw, 100svh * 0.46) / 402); }
+
   .hero__stage {
-    --u: calc(min(100vw, 100svh * 0.46) / 402);
     width: calc(402 * var(--u));
   }
 
@@ -878,10 +885,8 @@ html.a11y-no-motion .post-card__link .post-card__img { transform: none; }
   }
 
   .hero__text {
-    left: calc(43 * var(--u));
+    left: var(--hero-gutter);
     top: calc(150 * var(--u));
-    width: calc(316 * var(--u));
-    text-align: center;
   }
 
   .hero__name {

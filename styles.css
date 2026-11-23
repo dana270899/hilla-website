@@ -196,12 +196,14 @@ html, body {
   direction: ltr;
 }
 
+/* Scaled so the roof clears the header and the base stands on the bottom edge,
+   like the photo (the drawing fills 6.6%–94.1% of the box's height) */
 .building {
   position: absolute;
-  left: calc(335 * var(--u));
-  bottom: calc(1024 * var(--u) - 1220 * var(--u));
-  width: calc(1244 * var(--u));
-  height: calc(1243 * var(--u));
+  left: calc(450 * var(--u));
+  bottom: calc(-59 * var(--u));
+  width: calc(1011 * var(--u));
+  height: calc(1010 * var(--u));
   color: var(--b-light);
   overflow: visible;
 }
@@ -229,10 +231,10 @@ html, body {
 }
 
 .hero__name {
-  margin: 0 0 calc(-7.5 * var(--u));
+  margin: 0 0 calc(-8.6 * var(--u));
   font-weight: 400;
   /* rem floor so the name still grows with browser zoom / text size (WCAG 1.4.4) */
-  font-size: max(calc(54.708 * var(--u) * var(--a11y-scale)), 1.75rem);
+  font-size: max(calc(63 * var(--u) * var(--a11y-scale)), 2rem);
 }
 
 .hero__taglines {
@@ -240,7 +242,7 @@ html, body {
   margin: 0;
   font-weight: 200;
   line-height: 1;
-  font-size: max(calc(60 * var(--u) * var(--a11y-scale)), 2rem);
+  font-size: max(calc(69 * var(--u) * var(--a11y-scale)), 2.25rem);
   overflow: hidden;
 }
 

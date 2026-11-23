@@ -20,7 +20,7 @@
   --cta-text: #fff;
   --cta-hover: #004a52;
   --cta-footer-bg: #fff;
-  --cta-footer-text: var(--text);
+  --cta-footer-text: #00a454; /* WhatsApp-style green, label and icon */
   --cta-footer-hover: #e6f0f1;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   /* Building drawing: pale lines and the darker "filled" tone */

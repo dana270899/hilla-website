@@ -216,7 +216,7 @@ html, body {
   display: grid;
   margin: 0;
   font-weight: 200;
-  font-size: max(calc(100.196 * var(--u) * var(--a11y-scale)), 2.5rem);
+  font-size: max(calc(60 * var(--u) * var(--a11y-scale)), 2rem);
   overflow: hidden;
 }
 
@@ -894,7 +894,7 @@ html.a11y-no-motion .post-card__link .post-card__img { transform: none; }
     font-size: max(calc(35.259 * var(--u) * var(--a11y-scale)), 1.75rem);
   }
 
-  .hero__taglines { font-size: max(calc(56.338 * var(--u) * var(--a11y-scale)), 2.25rem); }
+  .hero__taglines { font-size: max(calc(34 * var(--u) * var(--a11y-scale)), 1.75rem); }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -29,6 +29,17 @@ IMG = {
     "blog-rishum-bait-meshutaf": ((1600, 1067), (800, 534)),
     "blog-gishur": ((1600, 1067), (800, 534)),
 }
+# Alt text for each post's photo, by image name
+ALT = {
+    "dira-mekablan": "דירה חדשה וריקה עם חלונות גדולים ומטבח לבן",
+    "mechira-verechisha-bemakbil": "בניין מגורים מודרני עם מרפסות זכוכית",
+    "michraz-yazamim": "פיגומים על חזית בניין בשיפוץ",
+    "haskamot-dayarim": "לחיצת יד מעל תוכניות בנייה, ליד אנשים עם אפוד וקסדה של אתר בנייה",
+    "acharei-tama-38": "בניין מגורים ישן עם מרפסות ותריסים",
+    "schirut-iskit": "כניסה מזכוכית לשטח מסחרי בקומת הקרקע של בניין משרדים",
+    "rishum-bait-meshutaf": "יד מחזיקה צרור מפתחות עם מחזיק בצורת בית",
+    "gishur": "שני אנשים עוברים יחד על מסמכים ליד שולחן",
+}
 DESC = {"blog-dira-mekablan": "רכישת דירה מקבלן מבוססת על חוזה שנכתב כדי להגן על היזם. אלה חמשת הסעיפים שחשוב לבדוק לפני שחותמים על הסכם המכר."}
 DATE_ISO, DATE_TXT = "2026-11-22", "22.11.2026"
 
@@ -108,7 +119,7 @@ def build(path, slug):
       </header>
 
       <div class="post__media">
-        <img class="post__image" src="assets/blog/{img}-1600.webp" srcset="assets/blog/{img}-800.webp 800w, assets/blog/{img}-1600.webp {bw}w" sizes="(max-width: 1440px) 100vw, 1200px" width="{bw}" height="{bh}" alt="" fetchpriority="high">
+        <img class="post__image" src="assets/blog/{img}-1600.webp" srcset="assets/blog/{img}-800.webp 800w, assets/blog/{img}-1600.webp {bw}w" sizes="(max-width: 1440px) 100vw, 1200px" width="{bw}" height="{bh}" alt="{attr(ALT[img])}" fetchpriority="high">
       </div>
 
       <div class="post__body">
@@ -139,7 +150,7 @@ for f, slug in POSTS:
     listing.append({"href": slug + ".html", "title": title})
     cards += f'''          <li class="post-card">
             <a class="post-card__link" href="{slug}.html">
-              <span class="post-card__media"><img class="post-card__img" src="assets/blog/{img}-800.webp" width="{cw}" height="{ch}" alt="" loading="lazy"><span class="post-card__badge">זמן קריאה: {mins} דקות</span></span>
+              <span class="post-card__media"><img class="post-card__img" src="assets/blog/{img}-800.webp" width="{cw}" height="{ch}" alt="{attr(ALT[img])}" loading="lazy"><span class="post-card__badge">זמן קריאה: {mins} דקות</span></span>
               <span class="post-card__title">{esc(title)}</span>
             </a>
           </li>

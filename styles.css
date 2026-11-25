@@ -620,10 +620,10 @@ html.a11y-no-motion { scroll-behavior: auto; }
   width: 100%;
   height: 440px;
   border-radius: 8px;
-  /* Cut-out portrait (transparent background) on the light brand tint; head kept in frame */
+  /* Cut-out portrait (transparent background) on the light brand tint. The file is
+     cropped square around the figure, so it fills the frame */
   background: var(--b-light);
   object-fit: cover;
-  object-position: 50% 30%;
   order: 1;
 }
 

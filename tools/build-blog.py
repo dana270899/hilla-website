@@ -16,6 +16,19 @@ POSTS = [  # (export file, page slug)
     ("a7.html", "blog-rishum-bait-meshutaf"),
     ("a8.html", "blog-gishur"),
 ]
+# Each post's photo (from Figma "Desktop - 7", cropped to the card framing):
+# assets/blog/<name>-1600.webp for the article, <name>-800.webp for the home card.
+# (large width, height), (card width, height)
+IMG = {
+    "blog-dira-mekablan": ((1600, 1063), (800, 532)),
+    "blog-mechira-verechisha-bemakbil": ((1600, 1211), (800, 606)),
+    "blog-michraz-yazamim": ((1600, 1032), (800, 516)),
+    "blog-haskamot-dayarim": ((1600, 1068), (800, 534)),
+    "blog-acharei-tama-38": ((1171, 886), (800, 606)),
+    "blog-schirut-iskit": ((1600, 1210), (800, 605)),
+    "blog-rishum-bait-meshutaf": ((1600, 1067), (800, 534)),
+    "blog-gishur": ((1600, 1067), (800, 534)),
+}
 DESC = {"blog-dira-mekablan": "רכישת דירה מקבלן מבוססת על חוזה שנכתב כדי להגן על היזם. אלה חמשת הסעיפים שחשוב לבדוק לפני שחותמים על הסכם המכר."}
 DATE_ISO, DATE_TXT = "2026-11-22", "22.11.2026"
 
@@ -47,8 +60,10 @@ def rich(parts):
         s += lead + (f"<strong>{esc(core)}</strong>" if b and core else esc(core)) + trail
     return s.strip()
 
-def build(path):
+def build(path, slug):
     bl = blocks(path)
+    (bw, bh), _ = IMG[slug]
+    img = slug.removeprefix("blog-")
     title, lead = bl[0][1], bl[1][1]
     rest = bl[2:]
     faq_i = next(i for i, b in enumerate(rest) if b[0] == "h2")
@@ -92,9 +107,8 @@ def build(path):
         </p>
       </header>
 
-      <!-- TODO: replace with the article's main image -->
       <div class="post__media">
-        <div class="placeholder post__image" role="img" aria-label="תמונה ראשית לכתבה"></div>
+        <img class="post__image" src="assets/blog/{img}-1600.webp" srcset="assets/blog/{img}-800.webp 800w, assets/blog/{img}-1600.webp {bw}w" sizes="(max-width: 1440px) 100vw, 1200px" width="{bw}" height="{bh}" alt="" fetchpriority="high">
       </div>
 
       <div class="post__body">
@@ -112,7 +126,9 @@ tpl = open(f"{site}/blog-dira-mekablan.html", encoding="utf-8").read()
 a, b = tpl.index('          <h1 class="post__title">'), tpl.index("      <!-- Share:")
 cards, listing = "", []
 for f, slug in POSTS:
-    title, lead, mins, article = build(f"{docdir}/{f}")
+    title, lead, mins, article = build(f"{docdir}/{f}", slug)
+    _, (cw, ch) = IMG[slug]
+    img = slug.removeprefix("blog-")
     desc = DESC.get(slug) or (lead if len(lead) <= 160 else lead[:lead.rfind(" ", 0, 155)] + "…")
     page = tpl[:a] + article + tpl[b:]
     page = re.sub(r"<title>.*?</title>", lambda m: f"<title>{esc(title)} – הלה איינהורן, עורכת דין</title>", page, 1)
@@ -123,7 +139,7 @@ for f, slug in POSTS:
     listing.append({"href": slug + ".html", "title": title})
     cards += f'''          <li class="post-card">
             <a class="post-card__link" href="{slug}.html">
-              <span class="post-card__media"><img class="post-card__img" src="assets/blog/building-800.webp" width="800" height="533" alt="" loading="lazy"><span class="post-card__badge">זמן קריאה: {mins} דקות</span></span>
+              <span class="post-card__media"><img class="post-card__img" src="assets/blog/{img}-800.webp" width="{cw}" height="{ch}" alt="" loading="lazy"><span class="post-card__badge">זמן קריאה: {mins} דקות</span></span>
               <span class="post-card__title">{esc(title)}</span>
             </a>
           </li>

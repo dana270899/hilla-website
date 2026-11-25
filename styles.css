@@ -1618,16 +1618,19 @@ html.a11y-contrast .share__btn { box-shadow: inset 0 0 0 2px #000; }
   padding-block: 32px 64px;
 }
 
+/* Previous / next titles in grey, chevron centred on the (often two-line) title */
 .post-nav__link {
   display: flex;
-  align-items: flex-end;
-  color: var(--ink);
+  align-items: center;
+  color: var(--text-soft);
   font-size: 1.125rem;
   font-weight: 300;
   text-decoration: none;
 }
 
 .post-nav__link:hover { text-decoration: underline; }
+
+html.a11y-contrast .post-nav__link { color: var(--text); }
 
 @media (max-width: 1100px) {
   .post__head, .post__body, .share, .post-nav, .post__media { padding-inline: 40px; }
